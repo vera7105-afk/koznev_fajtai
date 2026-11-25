@@ -1,0 +1,3860 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Szófaj-kalandorok – A főnév és a köznév fajtái (6. osztály)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f3f6ff;
+      --bg-accent: #e8eeff;
+      --surface: #ffffff;
+      --surface-soft: #f8faff;
+      --text: #1e293b;
+      --text-muted: #5b6b84;
+      --border: #dde5f4;
+
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #eef2ff;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --success-border: #6ee7b7;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --danger-border: #fca5a5;
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+
+      /* 5 köznév fajta színei */
+      --cat-egyedi: #0284c7;
+      --cat-egyedi-bg: #e0f2fe;
+      --cat-gyujto: #059669;
+      --cat-gyujto-bg: #d1fae5;
+      --cat-anyag: #d97706;
+      --cat-anyag-bg: #fef3c7;
+      --cat-fogalom: #7c3aed;
+      --cat-fogalom-bg: #ede9fe;
+      --cat-cselekves: #e11d48;
+      --cat-cselekves-bg: #ffe4e6;
+
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 4px 12px rgba(30, 41, 59, 0.06);
+      --shadow-md: 0 10px 28px rgba(30, 41, 59, 0.09);
+      --shadow-lg: 0 18px 40px rgba(79, 70, 229, 0.16);
+      --transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.10), transparent 36%),
+        radial-gradient(circle at 90% 15%, rgba(14, 165, 233, 0.10), transparent 34%),
+        radial-gradient(circle at 80% 90%, rgba(16, 185, 129, 0.08), transparent 36%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .display-font {
+      font-family: 'Fredoka', 'Nunito', sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--secondary);
+      outline-offset: 2px;
+    }
+
+    /* Confetti canvas */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Header / HUD */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(30, 41, 59, 0.04);
+    }
+
+    .topbar-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      color: white;
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.28);
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .hud-stats {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .stat-pill.xp {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #b45309;
+    }
+
+    .stat-pill.streak {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      color: #be123c;
+    }
+
+    .stat-pill.stars {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+      color: #4338ca;
+    }
+
+    .hud-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 13px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: var(--transition);
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    .icon-btn.primary-soft {
+      background: var(--primary-light);
+      border-color: #c7d2fe;
+      color: var(--primary);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 26px 18px 64px;
+    }
+
+    /* Hero / Rank Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #4338ca 0%, #4f46e5 50%, #0284c7 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 26px 28px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: "📚✨";
+      position: absolute;
+      right: 24px;
+      top: 18px;
+      font-size: 3.2rem;
+      opacity: 0.16;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(1.5rem, 3vw, 2.05rem);
+      margin-bottom: 6px;
+    }
+
+    .hero-text p {
+      font-size: 0.98rem;
+      opacity: 0.94;
+      max-width: 580px;
+    }
+
+    .rank-box {
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 16px;
+      padding: 14px 18px;
+      min-width: 240px;
+    }
+
+    .rank-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.88;
+      font-weight: 800;
+    }
+
+    .rank-name {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+      margin: 2px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.25);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #fde047, #34d399);
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .rank-meta {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      opacity: 0.92;
+      font-weight: 700;
+    }
+
+    /* Map Grid */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      font-size: 1.38rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .level-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .level-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .level-card.recommended {
+      border-color: var(--primary);
+      box-shadow: 0 10px 26px rgba(79, 70, 229, 0.14);
+      background: linear-gradient(180deg, #ffffff 0%, #f6f8ff 100%);
+    }
+
+    .level-card.completed {
+      border-color: var(--success-border);
+    }
+
+    .level-badge-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .step-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .level-card.completed .step-chip {
+      background: var(--success-bg);
+      color: #047857;
+    }
+
+    .next-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: white;
+      animation: pulseSoft 2s infinite;
+    }
+
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .level-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .level-emoji {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .level-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 2px;
+      color: var(--text);
+    }
+
+    .level-tag {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .level-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .level-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .stars-display {
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+    }
+
+    .play-cta {
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Achievements Row */
+    .badges-panel {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .badge-item {
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      background: var(--surface-soft);
+      transition: var(--transition);
+    }
+
+    .badge-item.locked {
+      opacity: 0.52;
+      filter: grayscale(0.85);
+    }
+
+    .badge-item.unlocked {
+      background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+      border-color: #fcd34d;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.14);
+    }
+
+    .badge-emoji {
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .badge-title {
+      font-weight: 800;
+      font-size: 0.84rem;
+      color: var(--text);
+    }
+
+    .badge-hint {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Task View Container */
+    .task-shell {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      animation: fadeUp 0.28s ease-out;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .task-header {
+      background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+      padding: 18px 24px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .task-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: white;
+      border: 1.5px solid var(--border);
+      font-weight: 800;
+      font-size: 0.88rem;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .task-progress-wrap {
+      flex: 1;
+      min-width: 180px;
+      max-width: 300px;
+    }
+
+    .task-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .task-progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #dde5f4;
+      overflow: hidden;
+    }
+
+    .task-progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+      transition: width 0.35s ease;
+    }
+
+    .task-body {
+      padding: 26px 26px 30px;
+    }
+
+    .instruction-box {
+      background: #f8faff;
+      border-left: 5px solid var(--primary);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .instruction-box .ins-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .instruction-box h3 {
+      font-size: 1.08rem;
+      margin-bottom: 2px;
+    }
+
+    .instruction-box p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.96rem;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      color: white;
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(79, 70, 229, 0.34);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.28);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: white;
+      border: 2px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* Feedback Banner */
+    .feedback-box {
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.94rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      animation: popIn 0.22s ease-out;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .feedback-box.ok {
+      background: var(--success-bg);
+      border: 1.5px solid var(--success-border);
+      color: #065f46;
+    }
+
+    .feedback-box.err {
+      background: var(--danger-bg);
+      border: 1.5px solid var(--danger-border);
+      color: #991b1b;
+    }
+
+    .feedback-box.info {
+      background: #eff6ff;
+      border: 1.5px solid #93c5fd;
+      color: #1e40af;
+    }
+
+    /* LEVEL 1: Meghatározós feladat */
+    .def-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+      border: 2px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .def-kicker {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .def-quote {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+      max-width: 680px;
+      margin: 0 auto 10px;
+      line-height: 1.5;
+    }
+
+    .def-example-hint {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .option-btn {
+      padding: 15px 16px;
+      border-radius: 15px;
+      border: 2px solid var(--border);
+      background: white;
+      font-weight: 800;
+      font-size: 0.98rem;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      box-shadow: 0 2px 6px rgba(30, 41, 59, 0.04);
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .option-btn .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #065f46;
+    }
+
+    .option-btn.correct .opt-letter {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+
+    .option-btn.wrong {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #991b1b;
+      animation: shake 0.35s ease;
+    }
+
+    .option-btn.wrong .opt-letter {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: white;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    /* LEVEL 2: Szóvadászat (Word selection) */
+    .word-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      padding: 18px;
+      background: var(--surface-soft);
+      border: 2px dashed #cbd5e1;
+      border-radius: 18px;
+      margin-bottom: 18px;
+    }
+
+    .word-chip {
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: white;
+      border: 2px solid #cbd5e1;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      transition: var(--transition);
+      box-shadow: 0 3px 8px rgba(30, 41, 59, 0.05);
+      user-select: none;
+    }
+
+    .word-chip:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.14);
+    }
+
+    .word-chip.selected {
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .word-chip.found-ok {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #065f46;
+    }
+
+    .word-chip.missed-noun {
+      background: #fffbeb;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    .word-chip.picked-wrong {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #991b1b;
+      text-decoration: line-through;
+    }
+
+    .sentence-box {
+      background: #f8faff;
+      border: 2px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 24px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .sentence-word {
+      padding: 9px 14px;
+      border-radius: 12px;
+      background: white;
+      border: 2px solid transparent;
+      font-size: 1.16rem;
+      font-weight: 800;
+      color: var(--text);
+      transition: var(--transition);
+      box-shadow: 0 2px 6px rgba(30, 41, 59, 0.05);
+    }
+
+    .sentence-word:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .sentence-word.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+    }
+
+    .sentence-word.found-ok {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #065f46;
+    }
+
+    .sentence-word.picked-wrong {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #991b1b;
+    }
+
+    .sentence-word.missed-noun {
+      background: #fffbeb;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    /* LEVEL 3: 5 köznév fajta válogató */
+    .sorter-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .active-word-card {
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      color: white;
+      padding: 22px 38px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 12px 26px rgba(79, 70, 229, 0.25);
+      min-width: 260px;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.2s ease;
+    }
+
+    .active-word-card:active {
+      cursor: grabbing;
+      transform: scale(0.98);
+    }
+
+    .active-word-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.88;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .active-word-text {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .buckets-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 12px;
+    }
+
+    .bucket-card {
+      border-radius: 16px;
+      padding: 15px 12px;
+      border: 2.5px solid var(--border);
+      background: white;
+      text-align: center;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-height: 138px;
+    }
+
+    .bucket-card:hover, .bucket-card.drag-over {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .bucket-card[data-cat="egyedi"] { border-color: #7dd3fc; background: linear-gradient(180deg, #f0f9ff 0%, #fff 100%); }
+    .bucket-card[data-cat="gyujto"] { border-color: #6ee7b7; background: linear-gradient(180deg, #ecfdf5 0%, #fff 100%); }
+    .bucket-card[data-cat="anyag"] { border-color: #fcd34d; background: linear-gradient(180deg, #fffbeb 0%, #fff 100%); }
+    .bucket-card[data-cat="fogalom"] { border-color: #c4b5fd; background: linear-gradient(180deg, #f5f3ff 0%, #fff 100%); }
+    .bucket-card[data-cat="cselekves"] { border-color: #fda4af; background: linear-gradient(180deg, #fff1f2 0%, #fff 100%); }
+
+    .bucket-card.drag-over {
+      outline: 3px dashed var(--primary);
+      outline-offset: -4px;
+    }
+
+    .bucket-emoji {
+      font-size: 1.7rem;
+    }
+
+    .bucket-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .bucket-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .bucket-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .mini-chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      background: white;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+
+    /* LEVEL 4: Kakukktojás */
+    .eggs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .egg-card {
+      position: relative;
+      background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+      border: 2.5px solid #cbd5e1;
+      border-radius: 50% 50% 42% 42% / 58% 58% 42% 42%;
+      padding: 30px 16px 26px;
+      text-align: center;
+      transition: var(--transition);
+      box-shadow: 0 8px 18px rgba(30, 41, 59, 0.07);
+      min-height: 146px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .egg-card:hover:not(:disabled) {
+      transform: translateY(-6px) rotate(-1.5deg);
+      border-color: var(--primary);
+      box-shadow: 0 12px 24px rgba(79, 70, 229, 0.16);
+    }
+
+    .egg-icon {
+      font-size: 1.5rem;
+    }
+
+    .egg-word {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .egg-card.correct {
+      background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+      border-color: var(--success);
+      transform: scale(1.04);
+    }
+
+    .egg-card.wrong {
+      background: linear-gradient(180deg, #fef2f2 0%, #fee2e2 100%);
+      border-color: var(--danger);
+      animation: shake 0.35s ease;
+    }
+
+    .reason-panel {
+      background: #f8faff;
+      border: 2px solid #c7d2fe;
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 14px;
+      animation: fadeUp 0.25s ease;
+    }
+
+    .reason-panel h4 {
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+      font-size: 1.04rem;
+    }
+
+    /* LEVEL 5: Mintaelemzés építő */
+    .analysis-word-box {
+      text-align: center;
+      background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 100%);
+      border: 2px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .analysis-target {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      color: var(--primary-dark);
+    }
+
+    .analysis-chain {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chain-slot {
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: 2px dashed #94a3b8;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.7);
+      min-width: 110px;
+      text-align: center;
+    }
+
+    .chain-slot.filled {
+      border-style: solid;
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: #065f46;
+    }
+
+    .chain-slot.active {
+      border-style: solid;
+      border-color: var(--primary);
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
+    }
+
+    .chain-arrow {
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    /* Level Complete / Summary Card */
+    .summary-card {
+      text-align: center;
+      padding: 20px 10px;
+      animation: popIn 0.3s ease;
+    }
+
+    .summary-emoji {
+      font-size: 4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .summary-stars {
+      font-size: 2.4rem;
+      letter-spacing: 6px;
+      margin: 10px 0 14px;
+    }
+
+    .summary-metrics {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 18px 0 24px;
+    }
+
+    .metric-box {
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 20px;
+      min-width: 130px;
+    }
+
+    .metric-val {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .metric-lbl {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .summary-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Certificate */
+    .certificate-box {
+      margin: 22px auto 0;
+      max-width: 640px;
+      background: linear-gradient(135deg, #fffbeb 0%, #ffffff 50%, #eef2ff 100%);
+      border: 4px double #f59e0b;
+      border-radius: 20px;
+      padding: 26px 24px;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+
+    .cert-name-input {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 800;
+      text-align: center;
+      width: 100%;
+      max-width: 280px;
+      margin: 10px 0;
+    }
+
+    /* Modal (Tudástár) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.56);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: 22px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+      animation: popIn 0.22s ease;
+    }
+
+    .modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, #4f46e5, #0284c7);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    .modal-body {
+      padding: 22px;
+      overflow-y: auto;
+    }
+
+    .ref-block {
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+    }
+
+    .ref-block h4 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      color: var(--primary-dark);
+    }
+
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .ref-cat-card {
+      padding: 12px;
+      border-radius: 12px;
+      border-left: 5px solid var(--primary);
+      background: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      font-size: 0.88rem;
+    }
+
+    .ref-cat-card strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.94rem;
+    }
+
+    .ref-cat-card.c-egyedi { border-left-color: var(--cat-egyedi); }
+    .ref-cat-card.c-gyujto { border-left-color: var(--cat-gyujto); }
+    .ref-cat-card.c-anyag { border-left-color: var(--cat-anyag); }
+    .ref-cat-card.c-fogalom { border-left-color: var(--cat-fogalom); }
+    .ref-cat-card.c-cselekves { border-left-color: var(--cat-cselekves); }
+
+    /* Toast */
+    .toast-wrap {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 800;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #1e293b;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideInRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Timer Pill for Boss */
+    .timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
+      color: #b91c1c;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .mode-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .mode-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 18px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .mode-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .mode-card .m-icon {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .action-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner { padding: 10px 14px; }
+      .hero-banner { padding: 20px 18px; }
+      .task-body { padding: 18px 16px 24px; }
+      .egg-card { min-height: 118px; padding: 20px 12px; }
+      .active-word-text { font-size: 1.6rem; }
+    }
+
+    @media print {
+      .topbar, .no-print { display: none !important; }
+      body { background: white; }
+      .task-shell { border: none; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Sticky Header -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" onclick="goHome()" title="Vissza a kalandtérképre">
+        <div class="brand-icon">🧭</div>
+        <div>
+          <div class="brand-title display-font">Szófaj-kalandorok</div>
+          <div class="brand-sub">6. osztály • A főnév és a köznév fajtái</div>
+        </div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="stat-pill xp" title="Tapasztalati pont">⚡ <span id="hud-xp">0</span> XP</div>
+        <div class="stat-pill streak" title="Egymás utáni hibátlan válaszok">🔥 <span id="hud-streak">0</span></div>
+        <div class="stat-pill stars" title="Megszerzett csillagok">⭐ <span id="hud-stars">0</span>/18</div>
+      </div>
+
+      <div class="hud-actions">
+        <button class="icon-btn primary-soft" onclick="openRefModal()">📖 Tudástár</button>
+        <button class="icon-btn" id="sound-toggle" onclick="toggleSound()" title="Hangok ki/be">🔊 Hang</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HOME VIEW -->
+    <section id="home-view">
+      <div class="hero-banner">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1>Hódítsd meg a főnév birodalmát! 🏰</h1>
+            <p>
+              6 egymásra épülő küldetés vár rád: először megismered a meghatározásokat,
+              aztán főnevekre vadászol, szétválogatod a köznév 5 fajtáját, kiszúrod a kakukktojásokat,
+              és végül igazi főnév-mesterré válsz!
+            </p>
+          </div>
+          <div class="rank-box">
+            <div class="rank-label">Jelenlegi rangod</div>
+            <div class="rank-name" id="rank-name">🌱 Kezdő szóvadász</div>
+            <div class="progress-track">
+              <div class="progress-fill" id="rank-progress" style="width: 0%"></div>
+            </div>
+            <div class="rank-meta">
+              <span id="rank-xp-text">0 XP</span>
+              <span id="rank-next-text">Következő: 120 XP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>🗺️ Egymásra épülő küldetések</h2>
+        <button class="icon-btn" onclick="resetProgress()" title="Haladás törlése">🔄 Újrakezdés</button>
+      </div>
+
+      <div class="levels-grid" id="levels-grid"></div>
+
+      <div class="badges-panel">
+        <div class="section-header" style="margin-bottom: 4px;">
+          <h2 style="font-size: 1.2rem;">🏅 Megszerezhető jelvények</h2>
+          <span style="font-size: 0.84rem; font-weight: 700; color: var(--text-muted);" id="badge-counter">0 / 6 feloldva</span>
+        </div>
+        <div class="badges-grid" id="badges-grid"></div>
+      </div>
+    </section>
+
+    <!-- TASK VIEW -->
+    <section id="task-view" class="hidden">
+      <div class="task-shell">
+        <div class="task-header no-print">
+          <div class="task-header-left">
+            <button class="back-btn" onclick="goHome()">← Térkép</button>
+            <div>
+              <h2 id="task-title" style="font-size: 1.15rem;">Küldetés</h2>
+              <div id="task-subtitle" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);"></div>
+            </div>
+          </div>
+          <div id="timer-holder" class="hidden">
+            <div class="timer-pill">⏱️ <span id="timer-val">15</span> mp</div>
+          </div>
+          <div class="task-progress-wrap">
+            <div class="task-progress-label">
+              <span id="progress-label-left">Haladás</span>
+              <span id="progress-label-right">0 / 0</span>
+            </div>
+            <div class="task-progress-bar">
+              <div class="task-progress-fill" id="task-progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-body" id="task-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- TUDÁSTÁR MODAL -->
+  <div class="modal-backdrop" id="ref-modal" onclick="if(event.target === this) closeRefModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem;">📖 6. osztályos tudástár – A főnév és a köznév fajtái</h3>
+        <button class="modal-close" onclick="closeRefModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="ref-block">
+          <h4>1. Mi a főnév?</h4>
+          <p style="font-size: 0.92rem;">
+            A <strong>főnév</strong> olyan alapszófaj, amely <strong>élőlények, élettelen tárgyak vagy gondolati, elvont dolgok</strong> nevét fejezi ki. Megnevező szófaj.
+          </p>
+          <p style="font-size: 0.9rem; margin-top: 6px;">
+            <strong>Kérdései:</strong> <em>Ki? Mi? Kik? Mik?</em> (Toldalékosan pl.: <em>Kit? Mit? Kinek? Mivel? Honnan?</em>)
+          </p>
+        </div>
+
+        <div class="ref-block">
+          <h4>2. A köznév és 5 fajtája (kis kezdőbetűvel írjuk!)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Több hasonló dolog, élőlény vagy tárgy közös neve. Mindig kis kezdőbetűvel írjuk (kivéve mondat elején).
+          </p>
+          <div class="ref-grid">
+            <div class="ref-cat-card c-egyedi">
+              <strong>🦊 Egyedi név</strong>
+              Egyetlen önálló, jól elkülöníthető élőlényt vagy tárgyat jelöl.<br/>
+              <em>Pl.: tanár, gyerek, könyv, asztal, kutya</em>
+            </div>
+            <div class="ref-cat-card c-gyujto">
+              <strong>🌲 Gyűjtőnév</strong>
+              Több egyedből álló csoportot, halmazt nevez meg <u>egyes számban</u>.<br/>
+              <em>Pl.: csoport, erdő, papság, diákság, csorda, ménes</em>
+            </div>
+            <div class="ref-cat-card c-anyag">
+              <strong>🪙 Anyagnév</strong>
+              Részei ugyanazokkal a tulajdonságokkal bírnak, mint az egész; mértékegységgel mérjük.<br/>
+              <em>Pl.: víz, tej, liszt, arany, só, fa (mint anyag)</em>
+            </div>
+            <div class="ref-cat-card c-fogalom">
+              <strong>💡 Fogalom</strong>
+              Megfoghatatlan, elvont gondolati dolgok, tulajdonságok, érzelmek neve.<br/>
+              <em>Pl.: szeretet, barátság, jóság, félelem, igazság, tisztaság</em>
+            </div>
+            <div class="ref-cat-card c-cselekves">
+              <strong>🏃 Cselekvést kifejező főnév</strong>
+              Folyamatot, tevékenységet megnevező, leggyakrabban igéből képzett főnév.<br/>
+              <em>Pl.: tanulás, úszás, olvasás, futás, építkezés</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="ref-block">
+          <h4>3. Helyesírási csapdák – Ezek is KISBETŰS köznevek!</h4>
+          <ul style="padding-left: 20px; font-size: 0.9rem; display: grid; gap: 4px;">
+            <li><strong>Hónapok:</strong> <em>január, február, március, június, szeptember</em></li>
+            <li><strong>Évszakok:</strong> <em>tavasz, nyár, ősz, tél</em></li>
+            <li><strong>Ünnepek, jeles napok, időszakok:</strong> <em>karácsony, húsvét, pünkösd, mindenszentek, anyák napja, honfoglalás</em></li>
+            <li><strong>Népek, nemzetek, lakosnevek:</strong> <em>magyar, német, szlovák, kun, székely, veszprémi</em></li>
+            <li><strong>Önálló világtájak:</strong> <em>észak, dél, kelet, nyugat, délnyugat</em> (de földrajzi névben nagy: <em>Dél-Amerika</em>!)</li>
+          </ul>
+        </div>
+
+        <div class="ref-block" style="margin-bottom: 0;">
+          <h4>4. Kötött mintaelemzés</h4>
+          <p style="font-size: 0.9rem; line-height: 1.8;">
+            • <strong>ménes</strong> = névszó, főnév, köznév, gyűjtőnév<br/>
+            • <strong>tanulás</strong> = névszó, főnév, köznév, cselekvést kifejező főnév<br/>
+            • <strong>tisztasággal</strong> = névszó, főnév, köznév, fogalom<br/>
+            • <strong>arany</strong> = névszó, főnév, köznév, anyagnév
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <script>
+    /* ============================================================
+       1. HANGOK (Web Audio API – külső fájl nélkül)
+    ============================================================ */
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freqs, duration = 0.14, type = 'sine', volume = 0.12) {
+      if (!soundEnabled) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      freqs.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(f, now + idx * 0.08);
+        gain.gain.setValueAtTime(0.001, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(volume, now + idx * 0.08 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + duration + 0.02);
+      });
+    }
+
+    const sfx = {
+      ok: () => playTone([523.25, 659.25, 783.99], 0.14, 'triangle', 0.13),
+      err: () => playTone([260, 210], 0.16, 'sawtooth', 0.07),
+      click: () => playTone([440], 0.05, 'sine', 0.05),
+      win: () => playTone([523.25, 659.25, 783.99, 1046.5], 0.22, 'triangle', 0.15)
+    };
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊 Hang' : '🔇 Néma';
+      if (soundEnabled) sfx.click();
+    }
+
+    /* ============================================================
+       2. KONFETTI ANIMÁCIÓ
+    ============================================================ */
+    function fireConfetti(count = 75) {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const colors = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#e11d48', '#8b5cf6'];
+      const particles = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 120,
+        w: 7 + Math.random() * 6,
+        h: 10 + Math.random() * 8,
+        vx: (Math.random() - 0.5) * 5,
+        vy: 3 + Math.random() * 4.5,
+        rot: Math.random() * 360,
+        vrot: (Math.random() - 0.5) * 10,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      }));
+
+      let frames = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.08;
+          p.rot += p.vrot;
+          if (p.y < canvas.height + 40) alive = true;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        frames++;
+        if (alive && frames < 190) {
+          requestAnimationFrame(draw);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    /* ============================================================
+       3. ÁLLAPOT, MENTÉS, RANGOK ÉS JELVÉNYEK
+    ============================================================ */
+    const STORAGE_KEY = 'szofaj_kalandorok_6o_v1';
+
+    const DEFAULT_STATE = {
+      xp: 0,
+      streak: 0,
+      bestStreak: 0,
+      stars: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+      badges: [],
+      studentName: ''
+    };
+
+    let state = loadState();
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(DEFAULT_STATE);
+        const parsed = JSON.parse(raw);
+        return {
+          ...structuredClone(DEFAULT_STATE),
+          ...parsed,
+          stars: { ...DEFAULT_STATE.stars, ...(parsed.stars || {}) }
+        };
+      } catch {
+        return structuredClone(DEFAULT_STATE);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch {}
+    }
+
+    const RANKS = [
+      { min: 0, title: 'Kezdő szóvadász', icon: '🌱' },
+      { min: 120, title: 'Főnév-felfedező', icon: '🧭' },
+      { min: 280, title: 'Köznév-lovag', icon: '🛡️' },
+      { min: 480, title: 'Nyelvtan-varázsló', icon: '🧙‍♂️' },
+      { min: 700, title: 'A főnév nagymestere', icon: '👑' }
+    ];
+
+    const BADGES = [
+      { id: 'lvl1', emoji: '📜', title: 'Fogalom-tudós', hint: '1. szint teljesítve' },
+      { id: 'lvl2', emoji: '🦅', title: 'Sasszemű vadász', hint: '2. szint teljesítve' },
+      { id: 'lvl3', emoji: '🧰', title: 'Mester-válogató', hint: '3. szint teljesítve' },
+      { id: 'lvl4', emoji: '🥚', title: 'Kakukktojás-detektív', hint: '4. szint teljesítve' },
+      { id: 'lvl5', emoji: '🔬', title: 'Elemző professzor', hint: '5. szint teljesítve' },
+      { id: 'streak5', emoji: '🔥', title: 'Lángoló sorozat', hint: '5 jó válasz zsinórban' }
+    ];
+
+    const LEVELS = [
+      {
+        id: 1,
+        step: '1. lépcső • Alapozás',
+        title: 'Meghatározás-vadászat',
+        tag: 'Meghatározós feladat',
+        emoji: '📜',
+        bg: '#eef2ff',
+        desc: 'Találd meg, melyik nyelvtani fogalomhoz tartozik a leírás! (Főnév, köznév és az 5 fajta)'
+      },
+      {
+        id: 2,
+        step: '2. lépcső • Felismerés',
+        title: 'Szóvadászat több szó közül',
+        tag: 'Kiválasztás és mondatelemzés',
+        emoji: '🎯',
+        bg: '#e0f2fe',
+        desc: 'Válogasd ki a főneveket vegyes szófajok (igék, melléknevek, számnevek) közül, majd mondatokból is!'
+      },
+      {
+        id: 3,
+        step: '3. lépcső • Csoportosítás',
+        title: 'A köznév 5 kincsesládája',
+        tag: 'Köznév fajtái válogató',
+        emoji: '🧰',
+        bg: '#d1fae5',
+        desc: 'Sorold be a szavakat a megfelelő ládába: egyedi név, gyűjtőnév, anyagnév, fogalom vagy cselekvést kifejező főnév!'
+      },
+      {
+        id: 4,
+        step: '4. lépcső • Logika',
+        title: 'Kakukktojás-detektív',
+        tag: 'Kakukktojás + indoklás',
+        emoji: '🥚',
+        bg: '#fef3c7',
+        desc: 'Melyik szó lóg ki a sorból? Kattints a kakukktojásra, majd indokold meg a választásodat!'
+      },
+      {
+        id: 5,
+        step: '5. lépcső • Haladó',
+        title: 'Csapdák és mintaelemző',
+        tag: 'Helyesírás és elemzőlánc',
+        emoji: '🔬',
+        bg: '#f5f3ff',
+        desc: 'Kerüld el a kisbetűs helyesírási csapdákat (hónapok, ünnepek, világtájak), és építs kötött mintaelemzést!'
+      },
+      {
+        id: 6,
+        step: '6. lépcső • Zárópróba',
+        title: 'A főnév-mester kihívás',
+        tag: 'Vegyes kvíz és oklevél',
+        emoji: '🏆',
+        bg: '#ffe4e6',
+        desc: '25 vegyes feladat nyugodt vagy villám módban! A végén névre szóló oklevél vár.'
+      }
+    ];
+
+    function showToast(emoji, text) {
+      const wrap = document.getElementById('toast-wrap');
+      const el = document.createElement('div');
+      el.className = 'toast';
+      el.innerHTML = `<span style="font-size:1.25rem">${emoji}</span><span>${text}</span>`;
+      wrap.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(30px)';
+        el.style.transition = 'all 0.25s ease';
+        setTimeout(() => el.remove(), 260);
+      }, 2800);
+    }
+
+    function unlockBadge(id) {
+      if (!state.badges.includes(id)) {
+        state.badges.push(id);
+        const b = BADGES.find(x => x.id === id);
+        if (b) showToast(b.emoji, `Új jelvény feloldva: ${b.title}!`);
+        saveState();
+      }
+    }
+
+    function recordAnswer(isCorrect, baseXp = 15) {
+      if (isCorrect) {
+        state.streak += 1;
+        if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+        const bonus = state.streak >= 3 ? 5 : 0;
+        state.xp += baseXp + bonus;
+        if (state.streak >= 5) unlockBadge('streak5');
+        sfx.ok();
+      } else {
+        state.streak = 0;
+        sfx.err();
+      }
+      saveState();
+      updateHUD();
+    }
+
+    function updateHUD() {
+      const totalStars = Object.values(state.stars).reduce((a, b) => a + b, 0);
+      document.getElementById('hud-xp').textContent = state.xp;
+      document.getElementById('hud-streak').textContent = state.streak;
+      document.getElementById('hud-stars').textContent = totalStars;
+
+      // Rank calculation
+      let currentRank = RANKS[0];
+      let nextRank = RANKS[1];
+      for (let i = 0; i < RANKS.length; i++) {
+        if (state.xp >= RANKS[i].min) {
+          currentRank = RANKS[i];
+          nextRank = RANKS[i + 1] || null;
+        }
+      }
+      document.getElementById('rank-name').textContent = `${currentRank.icon} ${currentRank.title}`;
+      document.getElementById('rank-xp-text').textContent = `${state.xp} XP`;
+      if (nextRank) {
+        const span = nextRank.min - currentRank.min;
+        const pct = Math.min(100, Math.round(((state.xp - currentRank.min) / span) * 100));
+        document.getElementById('rank-progress').style.width = `${pct}%`;
+        document.getElementById('rank-next-text').textContent = `Következő: ${nextRank.min} XP`;
+      } else {
+        document.getElementById('rank-progress').style.width = '100%';
+        document.getElementById('rank-next-text').textContent = 'Maximális rang! 🎉';
+      }
+    }
+
+    function renderHome() {
+      updateHUD();
+      const grid = document.getElementById('levels-grid');
+      // Find first uncompleted level as recommended
+      const nextRecId = LEVELS.find(l => (state.stars[l.id] || 0) === 0)?.id || 6;
+
+      grid.innerHTML = LEVELS.map(lvl => {
+        const earned = state.stars[lvl.id] || 0;
+        const isRec = lvl.id === nextRecId;
+        const isDone = earned > 0;
+        const starsHtml = [1, 2, 3].map(n => n <= earned ? '⭐' : '☆').join('');
+        return `
+          <button class="level-card ${isRec ? 'recommended' : ''} ${isDone ? 'completed' : ''}" onclick="startLevel(${lvl.id})">
+            <div>
+              <div class="level-badge-top">
+                <span class="step-chip">${isDone ? '✓ ' : ''}${lvl.step}</span>
+                ${isRec ? '<span class="next-pill">AJÁNLOTT</span>' : ''}
+              </div>
+              <div class="level-icon-row">
+                <div class="level-emoji" style="background:${lvl.bg}">${lvl.emoji}</div>
+                <div>
+                  <h3>${lvl.title}</h3>
+                  <div class="level-tag">${lvl.tag}</div>
+                </div>
+              </div>
+              <p class="level-desc">${lvl.desc}</p>
+            </div>
+            <div class="level-footer">
+              <div class="stars-display" aria-label="${earned} csillag a 3-ból">${starsHtml}</div>
+              <span class="play-cta">${isDone ? 'Újrajátszás' : 'Indítás'} →</span>
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      // Badges
+      const bGrid = document.getElementById('badges-grid');
+      document.getElementById('badge-counter').textContent = `${state.badges.length} / ${BADGES.length} feloldva`;
+      bGrid.innerHTML = BADGES.map(b => {
+        const unlocked = state.badges.includes(b.id);
+        return `
+          <div class="badge-item ${unlocked ? 'unlocked' : 'locked'}">
+            <span class="badge-emoji">${b.emoji}</span>
+            <div class="badge-title">${b.title}</div>
+            <div class="badge-hint">${unlocked ? 'Megszerezve!' : b.hint}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function goHome() {
+      stopBossTimer();
+      document.getElementById('task-view').classList.add('hidden');
+      document.getElementById('home-view').classList.remove('hidden');
+      document.getElementById('timer-holder').classList.add('hidden');
+      renderHome();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetProgress() {
+      if (confirm('Biztosan törlöd az eddigi csillagokat, XP-t és jelvényeket, hogy elölről kezdd?')) {
+        state = structuredClone(DEFAULT_STATE);
+        saveState();
+        renderHome();
+        showToast('🔄', 'Haladás visszaállítva. Indulhat az új kaland!');
+      }
+    }
+
+    function openRefModal() {
+      sfx.click();
+      document.getElementById('ref-modal').classList.add('open');
+    }
+
+    function closeRefModal() {
+      document.getElementById('ref-modal').classList.remove('open');
+    }
+
+    /* ============================================================
+       4. FELADATBANKOK (100% igazodva a 6. osztályos tananyaghoz)
+    ============================================================ */
+
+    // 1. SZINT – Meghatározós feladatok (8 kérdés)
+    const LEVEL1_DATA = [
+      {
+        kicker: 'Alapfogalom',
+        def: 'Olyan megnevező alapszófaj, amely élőlények, élettelen tárgyak vagy gondolati, elvont dolgok nevét fejezi ki.',
+        hint: 'Kérdései: Ki? Mi? Kik? Mik?',
+        options: ['Főnév', 'Melléknév', 'Ige', 'Számnév'],
+        answer: 0,
+        explain: 'Pontos! A főnév megnevező alapszófaj, élőlények, tárgyak és gondolati dolgok neve.'
+      },
+      {
+        kicker: 'Főcsoport',
+        def: 'Több hasonló dolog, élőlény vagy tárgy közös neve. Mondaton belül mindig kis kezdőbetűvel írjuk.',
+        hint: 'Pl.: tanár, könyv, erdő, március, karácsony',
+        options: ['Tulajdonnév', 'Köznév', 'Gyűjtőnév', 'Igenév'],
+        answer: 1,
+        explain: 'Így van! A köznév több hasonló dolog közös neve, kis kezdőbetűvel írjuk.'
+      },
+      {
+        kicker: 'Köznév fajtája',
+        def: 'Egyetlen önálló, jól elkülöníthető élőlényt vagy tárgyat jelöl.',
+        hint: 'Pl.: gyerek, asztal, kutya, kerékpár',
+        options: ['Gyűjtőnév', 'Anyagnév', 'Egyedi név', 'Fogalom'],
+        answer: 2,
+        explain: 'Nagyszerű! Az egyedi név egyetlen önálló élőlényt vagy tárgyat nevez meg.'
+      },
+      {
+        kicker: 'Köznév fajtája',
+        def: 'Több egyedből álló csoportot, halmazt nevez meg egyes számú alakban.',
+        hint: 'Pl.: erdő, ménes, csorda, diákság, papság',
+        options: ['Egyedi név', 'Gyűjtőnév', 'Anyagnév', 'Cselekvést kifejező főnév'],
+        answer: 1,
+        explain: 'Szuper! A gyűjtőnév egyes számban áll, mégis több egyed együttesét jelöli.'
+      },
+      {
+        kicker: 'Köznév fajtája',
+        def: 'Olyan anyagokat jelöl, amelyeknek kisebb részei is ugyanazokkal a tulajdonságokkal bírnak, és mértékegységgel mérjük őket.',
+        hint: 'Pl.: víz, tej, liszt, arany, só',
+        options: ['Fogalom', 'Egyedi név', 'Anyagnév', 'Gyűjtőnév'],
+        answer: 2,
+        explain: 'Talált! Az anyagnévvel jelölt anyagok kisebb részei is ugyanazt a nevet viselik (egy csepp víz is víz).'
+      },
+      {
+        kicker: 'Köznév fajtája',
+        def: 'Megfoghatatlan, elvont gondolati dolgok, tulajdonságok vagy érzelmek neve.',
+        hint: 'Pl.: szeretet, barátság, jóság, félelem, igazság',
+        options: ['Fogalom', 'Cselekvést kifejező főnév', 'Anyagnév', 'Egyedi név'],
+        answer: 0,
+        explain: 'Remek! A fogalmak nem megfogható, elvont gondolati dolgok, érzések vagy tulajdonságok nevei.'
+      },
+      {
+        kicker: 'Köznév fajtája',
+        def: 'Folyamatot, tevékenységet megnevező, leggyakrabban igéből képzett főnév.',
+        hint: 'Pl.: tanulás, úszás, olvasás, futás, építkezés',
+        options: ['Ige', 'Fogalom', 'Gyűjtőnév', 'Cselekvést kifejező főnév'],
+        answer: 3,
+        explain: 'Bravó! A cselekvést kifejező főnevek tevékenységet neveznek meg (kérdésük: Mi?), mégis főnevek!'
+      },
+      {
+        kicker: 'Kérdőszavak',
+        def: 'Melyik kérdéssor tartozik kizárólag a főnévhez (szótöves és toldalékos alakban)?',
+        hint: 'Gondolj a mondatban betöltött szerepére is!',
+        options: [
+          'Ki? Mi? Kik? Mik? Kit? Mit? Mivel?',
+          'Milyen? Mekkora? Melyik?',
+          'Mit csinál? Mi történik vele?',
+          'Hány? Mennyi? Hányadik?'
+        ],
+        answer: 0,
+        explain: 'Tökéletes! A főnév alapkérdései a Ki? Mi? Kik? Mik?, toldalékosan pedig pl. Kit? Mit? Mivel? Honnan?'
+      }
+    ];
+
+    // 2. SZINT – Szóvadászat több szó közül (5 szófelhő + 10 mondat = 15 feladat)
+    const LEVEL2_WAVES = [
+      {
+        type: 'cloud',
+        title: '1. hullám: Alap szóvadászat',
+        instruction: 'Kattints az ÖSSZES főnévre! (5 főnév bújt el a szavak között.)',
+        words: [
+          { text: 'kutya', isNoun: true, why: 'élőlény neve (egyedi név)' },
+          { text: 'szalad', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'piros', isNoun: false, why: 'melléknév (Milyen?)' },
+          { text: 'asztal', isNoun: true, why: 'tárgy neve (egyedi név)' },
+          { text: 'öt', isNoun: false, why: 'számnév (Hány?)' },
+          { text: 'erdő', isNoun: true, why: 'csoport/halmaz neve (gyűjtőnév)' },
+          { text: 'gyorsan', isNoun: false, why: 'határozószó (Hogyan?)' },
+          { text: 'tanár', isNoun: true, why: 'élőlény neve (egyedi név)' },
+          { text: 'alszik', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'arany', isNoun: true, why: 'anyag neve (anyagnév)' },
+          { text: 'szép', isNoun: false, why: 'melléknév (Milyen?)' }
+        ]
+      },
+      {
+        type: 'cloud',
+        title: '2. hullám: Élőlények, tárgyak és anyagok',
+        instruction: 'Válogasd ki mind az 5 főnevet a szavak közül!',
+        words: [
+          { text: 'kerékpár', isNoun: true, why: 'tárgy neve (egyedi név)' },
+          { text: 'nevet', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'magas', isNoun: false, why: 'melléknév (Milyen?)' },
+          { text: 'liszt', isNoun: true, why: 'anyag neve (anyagnév)' },
+          { text: 'hét', isNoun: false, why: 'számnév (Hány?)' },
+          { text: 'farkas', isNoun: true, why: 'élőlény neve (egyedi név)' },
+          { text: 'lassan', isNoun: false, why: 'határozószó (Hogyan?)' },
+          { text: 'homok', isNoun: true, why: 'anyag neve (anyagnév)' },
+          { text: 'rajzol', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'könyv', isNoun: true, why: 'tárgy neve (egyedi név)' },
+          { text: 'hideg', isNoun: false, why: 'melléknév (Milyen?)' }
+        ]
+      },
+      {
+        type: 'cloud',
+        title: '3. hullám: Elvont fogalmak és érzések',
+        instruction: 'Vigyázz a melléknevekre és igékre! Válaszd ki mind az 5 elvont főnevet (fogalmat)!',
+        words: [
+          { text: 'barátság', isNoun: true, why: 'elvont fogalom (Mi?)' },
+          { text: 'barátságos', isNoun: false, why: 'melléknév (Milyen?)' },
+          { text: 'félelem', isNoun: true, why: 'érzelem, fogalom (Mi?)' },
+          { text: 'fél', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'tisztaság', isNoun: true, why: 'tulajdonság neve, fogalom (Mi?)' },
+          { text: 'tiszta', isNoun: false, why: 'melléknév (Milyen?)' },
+          { text: 'bátorság', isNoun: true, why: 'tulajdonság neve, fogalom (Mi?)' },
+          { text: 'bátor', isNoun: false, why: 'melléknév (Milyen?)' },
+          { text: 'szeretet', isNoun: true, why: 'érzelem, fogalom (Mi?)' },
+          { text: 'szeret', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'szomorú', isNoun: false, why: 'melléknév (Milyen?)' }
+        ]
+      },
+      {
+        type: 'cloud',
+        title: '4. hullám: Cselekvést kifejező főnevek vs. igék',
+        instruction: 'Csapda! Az ige kérdése „Mit csinál?”, a cselekvést kifejező főnév kérdése „Mi?”. Keresd meg az 5 főnevet!',
+        words: [
+          { text: 'úszás', isNoun: true, why: 'cselekvést kifejező főnév (Mi?)' },
+          { text: 'úszik', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'olvasás', isNoun: true, why: 'cselekvést kifejező főnév (Mi?)' },
+          { text: 'olvas', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'futás', isNoun: true, why: 'cselekvést kifejező főnév (Mi?)' },
+          { text: 'fut', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'tanulás', isNoun: true, why: 'cselekvést kifejező főnév (Mi?)' },
+          { text: 'tanul', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'építkezés', isNoun: true, why: 'cselekvést kifejező főnév (Mi?)' },
+          { text: 'épít', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'ugrál', isNoun: false, why: 'ige (Mit csinál?)' }
+        ]
+      },
+      {
+        type: 'cloud',
+        title: '5. hullám: Mester-válogató (gyűjtőnevek és toldalékok)',
+        instruction: 'Ne tévesszen meg a toldalék vagy a kis kezdőbetű! Keresd meg az 5 főnevet!',
+        words: [
+          { text: 'ménes', isNoun: true, why: 'gyűjtőnév (Mi?)' },
+          { text: 'harmadik', isNoun: false, why: 'számnév (Hányadik?)' },
+          { text: 'diákság', isNoun: true, why: 'gyűjtőnév (Mi?)' },
+          { text: 'kedves', isNoun: false, why: 'melléknév (Milyen?)' },
+          { text: 'tisztasággal', isNoun: true, why: 'toldalékos fogalom (Mivel?)' },
+          { text: 'énekel', isNoun: false, why: 'ige (Mit csinál?)' },
+          { text: 'aranyból', isNoun: true, why: 'toldalékos anyagnév (Miből?)' },
+          { text: 'kint', isNoun: false, why: 'határozószó (Hol?)' },
+          { text: 'karácsony', isNoun: true, why: 'ünnep neve, köznév (Mi?)' },
+          { text: 'vidáman', isNoun: false, why: 'határozószó (Hogyan?)' },
+          { text: 'szépen', isNoun: false, why: 'határozószó (Hogyan?)' }
+        ]
+      },
+      {
+        type: 'sentence',
+        title: 'Mondatbeli főnév-vadászat',
+        sentences: [
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (Figyeld a toldalékos alakot is! – 2 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'bátor', isNoun: false },
+              { text: 'kutya', isNoun: true },
+              { text: 'gyorsan', isNoun: false },
+              { text: 'szalad', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'nagy', isNoun: false },
+              { text: 'erdőben.', isNoun: true }
+            ],
+            explain: 'A főnevek: kutya (egyedi név) és erdőben (toldalékos gyűjtőnév).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'Az', isNoun: false },
+              { text: 'okos', isNoun: false },
+              { text: 'diák', isNoun: true },
+              { text: 'szereti', isNoun: false },
+              { text: 'az', isNoun: false },
+              { text: 'olvasást', isNoun: true },
+              { text: 'és', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'tanulást.', isNoun: true }
+            ],
+            explain: 'A főnevek: diák (egyedi név), olvasást és tanulást (toldalékos cselekvést kifejező főnevek).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'friss', isNoun: false },
+              { text: 'tej', isNoun: true },
+              { text: 'és', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'fehér', isNoun: false },
+              { text: 'liszt', isNoun: true },
+              { text: 'az', isNoun: false },
+              { text: 'asztalon', isNoun: true },
+              { text: 'van.', isNoun: false }
+            ],
+            explain: 'A főnevek: tej, liszt (anyagnév) és asztalon (toldalékos egyedi név).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'Az', isNoun: false },
+              { text: 'igazi', isNoun: false },
+              { text: 'barátság', isNoun: true },
+              { text: 'nagy', isNoun: false },
+              { text: 'örömöt', isNoun: true },
+              { text: 'ad', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'gyerekeknek.', isNoun: true }
+            ],
+            explain: 'A főnevek: barátság, örömöt (fogalmak) és gyerekeknek (toldalékos egyedi név).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (2 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'nagy', isNoun: false },
+              { text: 'ménes', isNoun: true },
+              { text: 'békésen', isNoun: false },
+              { text: 'legel', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'zöld', isNoun: false },
+              { text: 'réten.', isNoun: true }
+            ],
+            explain: 'A főnevek: ménes (gyűjtőnév) és réten (toldalékos egyedi név).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'szorgalmas', isNoun: false },
+              { text: 'tanár', isNoun: true },
+              { text: 'sárga', isNoun: false },
+              { text: 'krétával', isNoun: true },
+              { text: 'ír', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'táblára.', isNoun: true }
+            ],
+            explain: 'A főnevek: tanár, krétával és táblára (toldalékos főnevek). Az „ír” ige!'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'vidám', isNoun: false },
+              { text: 'úszás', isNoun: true },
+              { text: 'jó', isNoun: false },
+              { text: 'kedvet', isNoun: true },
+              { text: 'és', isNoun: false },
+              { text: 'erőt', isNoun: true },
+              { text: 'ad.', isNoun: false }
+            ],
+            explain: 'A főnevek: úszás (cselekvést kifejező főnév), kedvet és erőt (toldalékos fogalmak).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (2 főnév)',
+            tokens: [
+              { text: 'Az', isNoun: false },
+              { text: 'éhes', isNoun: false },
+              { text: 'csorda', isNoun: true },
+              { text: 'lassan', isNoun: false },
+              { text: 'halad', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'poros', isNoun: false },
+              { text: 'úton.', isNoun: true }
+            ],
+            explain: 'A főnevek: csorda (gyűjtőnév) és úton (toldalékos egyedi név).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'finom', isNoun: false },
+              { text: 'méz', isNoun: true },
+              { text: 'és', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'forró', isNoun: false },
+              { text: 'tea', isNoun: true },
+              { text: 'segít', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'gyógyulásban.', isNoun: true }
+            ],
+            explain: 'A főnevek: méz, tea (anyagnév) és gyógyulásban (toldalékos cselekvést kifejező főnév).'
+          },
+          {
+            instruction: 'Kattints a mondat ÖSSZES főnevére! (3 főnév)',
+            tokens: [
+              { text: 'A', isNoun: false },
+              { text: 'békés', isNoun: false },
+              { text: 'faluban', isNoun: true },
+              { text: 'a', isNoun: false },
+              { text: 'lakosság', isNoun: true },
+              { text: 'nagyon', isNoun: false },
+              { text: 'várja', isNoun: false },
+              { text: 'a', isNoun: false },
+              { text: 'tavaszt.', isNoun: true }
+            ],
+            explain: 'A főnevek: faluban (egyedi név), lakosság (gyűjtőnév) és tavaszt (évszak neve – köznév).'
+          }
+        ]
+      }
+    ];
+
+    // 3. SZINT – A köznév 5 fajtája válogató (28 szó)
+    const KOZNEV_BUCKETS = [
+      { id: 'egyedi', label: 'Egyedi név', emoji: '🦊', sub: '1 önálló élőlény / tárgy' },
+      { id: 'gyujto', label: 'Gyűjtőnév', emoji: '🌲', sub: 'csoport egyes számban' },
+      { id: 'anyag', label: 'Anyagnév', emoji: '🪙', sub: 'mértékegységgel mérhető' },
+      { id: 'fogalom', label: 'Fogalom', emoji: '💡', sub: 'elvont dolog, érzelem' },
+      { id: 'cselekves', label: 'Cselekvést kifejező', emoji: '🏃', sub: 'tevékenység, folyamat' }
+    ];
+
+    const LEVEL3_WORDS = [
+      // Egyedi név (6)
+      { word: 'tanár', cat: 'egyedi', tip: 'Egyetlen jól elkülöníthető személyt jelöl.' },
+      { word: 'kerékpár', cat: 'egyedi', tip: 'Egyetlen, darabra számolható tárgy.' },
+      { word: 'könyv', cat: 'egyedi', tip: 'Egyetlen önálló tárgy.' },
+      { word: 'asztal', cat: 'egyedi', tip: 'Egyetlen jól elkülöníthető bútordarab.' },
+      { word: 'kutya', cat: 'egyedi', tip: 'Egyetlen önálló élőlényt nevez meg.' },
+      { word: 'ceruza', cat: 'egyedi', tip: 'Egyetlen darabra számolható íróeszköz.' },
+      // Gyűjtőnév (6)
+      { word: 'ménes', cat: 'gyujto', tip: 'Egyes számban áll, mégis sok lovat jelöl együtt!' },
+      { word: 'diákság', cat: 'gyujto', tip: 'Sok diák együttesét jelöli egyes számban.' },
+      { word: 'csorda', cat: 'gyujto', tip: 'Több állat együttesét jelöli egyes számban.' },
+      { word: 'erdő', cat: 'gyujto', tip: 'Sok fa együttesét nevezi meg egyes számban.' },
+      { word: 'papság', cat: 'gyujto', tip: 'A papok közösségét jelöli egyes számban.' },
+      { word: 'falka', cat: 'gyujto', tip: 'Több farkas vagy kutya csoportja egyes számban.' },
+      // Anyagnév (6)
+      { word: 'liszt', cat: 'anyag', tip: 'Dekagrammal, kilogrammal mérjük, részei is lisztek.' },
+      { word: 'arany', cat: 'anyag', tip: 'Nemesfém, kisebb darabjai is aranynak számítanak.' },
+      { word: 'tej', cat: 'anyag', tip: 'Folyadék, literrel mérjük, minden cseppje tej.' },
+      { word: 'víz', cat: 'anyag', tip: 'Egy cseppje is ugyanaz az anyag, literrel mérjük.' },
+      { word: 'homok', cat: 'anyag', tip: 'Kisebb szemcséi is homoknak számítanak, nem darabra mérjük.' },
+      { word: 'cukor', cat: 'anyag', tip: 'Mértékegységgel (pl. kilogramm, kanál) mérhető anyag.' },
+      // Fogalom (5)
+      { word: 'barátság', cat: 'fogalom', tip: 'Megfoghatatlan, elvont emberi kapcsolat.' },
+      { word: 'igazság', cat: 'fogalom', tip: 'Gondolati, elvont dolog – nem fogható kézzel.' },
+      { word: 'félelem', cat: 'fogalom', tip: 'Elvont érzelem neve.' },
+      { word: 'szeretet', cat: 'fogalom', tip: 'Kézzel nem fogható, belső érzelem.' },
+      { word: 'bátorság', cat: 'fogalom', tip: 'Elvont belső tulajdonság neve.' },
+      // Cselekvést kifejező főnév (5)
+      { word: 'tanulás', cat: 'cselekves', tip: 'A „tanul” igéből képzett, tevékenységet megnevező főnév.' },
+      { word: 'úszás', cat: 'cselekves', tip: 'Mozgásos folyamatot, tevékenységet nevez meg.' },
+      { word: 'építkezés', cat: 'cselekves', tip: 'Hosszabb tevékenységet, folyamatot nevez meg.' },
+      { word: 'olvasás', cat: 'cselekves', tip: 'Az „olvas” igéből képzett tevékenységnév.' },
+      { word: 'kirándulás', cat: 'cselekves', tip: 'Igéből képzett, folyamatot megnevező főnév.' }
+    ];
+
+    // 4. SZINT – Kakukktojásos feladat + indoklás (15 kör)
+    const LEVEL4_DATA = [
+      {
+        words: ['kutya', 'asztal', 'szalad', 'könyv'],
+        odd: 2,
+        reasons: [
+          'Mert ez ige, a többi szó pedig főnév.',
+          'Mert ez gyűjtőnév, a többi egyedi név.',
+          'Mert ez anyagnév, a többi fogalom.'
+        ],
+        correctReason: 0,
+        explain: 'A „szalad” ige (Mit csinál?), míg a kutya, asztal és könyv főnevek!'
+      },
+      {
+        words: ['víz', 'tej', 'arany', 'pohár'],
+        odd: 3,
+        reasons: [
+          'Mert ez fogalom, a többi gyűjtőnév.',
+          'Mert ez egyedi név, a többi pedig anyagnév.',
+          'Mert ez melléknév, a többi főnév.'
+        ],
+        correctReason: 1,
+        explain: 'A „pohár” darabra számolható egyedi név, a víz, tej és arany pedig anyagnév.'
+      },
+      {
+        words: ['erdő', 'csorda', 'farkas', 'diákság'],
+        odd: 2,
+        reasons: [
+          'Mert ez egyedi név, a többi pedig gyűjtőnév.',
+          'Mert ez anyagnév, a többi cselekvést kifejező főnév.',
+          'Mert ez nem főnév, hanem melléknév.'
+        ],
+        correctReason: 0,
+        explain: 'A „farkas” egyetlen élőlény (egyedi név), míg az erdő, csorda, diákság gyűjtőnevek!'
+      },
+      {
+        words: ['szeretet', 'barátság', 'olvasás', 'igazság'],
+        odd: 2,
+        reasons: [
+          'Mert ez gyűjtőnév, a többi anyagnév.',
+          'Mert ez cselekvést kifejező főnév, a többi pedig elvont fogalom.',
+          'Mert ez ige, a többi pedig főnév.'
+        ],
+        correctReason: 1,
+        explain: 'Az „olvasás” cselekvést kifejező főnév, a szeretet, barátság és igazság pedig fogalmak.'
+      },
+      {
+        words: ['tanulás', 'úszás', 'fut', 'építkezés'],
+        odd: 2,
+        reasons: [
+          'Mert ez ige, a többi pedig cselekvést kifejező főnév.',
+          'Mert ez egyedi név, a többi gyűjtőnév.',
+          'Mert ez fogalom, a többi anyagnév.'
+        ],
+        correctReason: 0,
+        explain: 'Csapda kiszúrva! A „fut” ige (Mit csinál?), a többi viszont cselekvést kifejező főnév (Mi?).'
+      },
+      {
+        words: ['ménes', 'papság', 'csapat', 'gyerekek'],
+        odd: 3,
+        reasons: [
+          'Mert ez anyagnév, a többi gyűjtőnév.',
+          'Mert ez többes számú egyedi név, míg a többi egyes számban álló gyűjtőnév.',
+          'Mert ez fogalom, a többi cselekvést kifejező főnév.'
+        ],
+        correctReason: 1,
+        explain: 'Nagyon ügyes! A gyűjtőnév EGYES SZÁMBAN jelöl csoportot. A „gyerekek” csak többes számú egyedi név!'
+      },
+      {
+        words: ['tisztaság', 'jóság', 'bátor', 'félelem'],
+        odd: 2,
+        reasons: [
+          'Mert ez melléknév (Milyen?), a többi pedig fogalom (főnév).',
+          'Mert ez ige, a többi pedig egyedi név.',
+          'Mert ez cselekvést kifejező főnév.'
+        ],
+        correctReason: 0,
+        explain: 'A „bátor” melléknév (a főnévi párja a „bátorság” lenne!), a többi elvont fogalom.'
+      },
+      {
+        words: ['liszt', 'só', 'kifli', 'homok'],
+        odd: 2,
+        reasons: [
+          'Mert ez gyűjtőnév, a többi fogalom.',
+          'Mert ez egyedi név (darabra számoljuk), a többi pedig anyagnév.',
+          'Mert ez cselekvést kifejező főnév.'
+        ],
+        correctReason: 1,
+        explain: 'A „kifli” önálló, darabra számolható egyedi név; a liszt, só és homok anyagnév.'
+      },
+      {
+        words: ['falka', 'nyáj', 'madarak', 'csorda'],
+        odd: 2,
+        reasons: [
+          'Mert ez többes számú egyedi név, a többi egyes számú gyűjtőnév.',
+          'Mert ez anyagnév, a többi fogalom.',
+          'Mert ez ige, a többi főnév.'
+        ],
+        correctReason: 0,
+        explain: 'A „madarak” többes számú egyedi név! A falka, nyáj és csorda egyes számban jelöl csoportot (gyűjtőnevek).'
+      },
+      {
+        words: ['vas', 'réz', 'gyapjú', 'kalapács'],
+        odd: 3,
+        reasons: [
+          'Mert ez cselekvést kifejező főnév, a többi fogalom.',
+          'Mert ez egyedi név, a többi pedig anyagnév.',
+          'Mert ez gyűjtőnév, a többi egyedi név.'
+        ],
+        correctReason: 1,
+        explain: 'A „kalapács” önálló, darabra számolható egyedi név, a vas, réz és gyapjú pedig anyagnév!'
+      },
+      {
+        words: ['bátorság', 'szabadság', 'türelem', 'türelmes'],
+        odd: 3,
+        reasons: [
+          'Mert ez melléknév (Milyen?), a többi pedig elvont fogalom (főnév).',
+          'Mert ez ige, a többi pedig gyűjtőnév.',
+          'Mert ez egyedi név, a többi anyagnév.'
+        ],
+        correctReason: 0,
+        explain: 'A „türelmes” melléknév (Milyen?), míg a bátorság, szabadság és türelem fogalmak (főnevek).'
+      },
+      {
+        words: ['futás', 'írás', 'éneklés', 'öröm'],
+        odd: 3,
+        reasons: [
+          'Mert ez anyagnév, a többi gyűjtőnév.',
+          'Mert ez elvont fogalom (érzelem), a többi pedig cselekvést kifejező főnév.',
+          'Mert ez ige, a többi egyedi név.'
+        ],
+        correctReason: 1,
+        explain: 'Az „öröm” érzelmet megnevező fogalom, a futás, írás és éneklés pedig cselekvést kifejező főnevek!'
+      },
+      {
+        words: ['ceruza', 'szék', 'iskola', 'osztály'],
+        odd: 3,
+        reasons: [
+          'Mert ez gyűjtőnév (tanulók csoportja), a többi pedig egyedi név.',
+          'Mert ez anyagnév, a többi fogalom.',
+          'Mert ez cselekvést kifejező főnév, a többi ige.'
+        ],
+        correctReason: 0,
+        explain: 'Az „osztály” több tanuló közösségét jelöli egyes számban (gyűjtőnév), a ceruza, szék és iskola egyedi nevek.'
+      },
+      {
+        words: ['cukor', 'méz', 'olaj', 'üvegpalack'],
+        odd: 3,
+        reasons: [
+          'Mert ez fogalom, a többi gyűjtőnév.',
+          'Mert ez darabra számolható egyedi név, a többi pedig anyagnév.',
+          'Mert ez melléknév, a többi főnév.'
+        ],
+        correctReason: 1,
+        explain: 'Az „üvegpalack” önálló tárgy (egyedi név), a cukor, méz és olaj pedig anyagnév!'
+      },
+      {
+        words: ['főzés', 'rajzolás', 'utazás', 'utazik'],
+        odd: 3,
+        reasons: [
+          'Mert ez ige (Mit csinál?), a többi pedig cselekvést kifejező főnév.',
+          'Mert ez egyedi név, a többi gyűjtőnév.',
+          'Mert ez elvont fogalom, a többi anyagnév.'
+        ],
+        correctReason: 0,
+        explain: 'Az „utazik” ige (Mit csinál?), míg a főzés, rajzolás és utazás cselekvést kifejező főnevek (Mi?)!'
+      }
+    ];
+
+    // 5. SZINT – Helyesírási csapdák (7 db) + Kötött mintaelemzés (7 db) = 14 feladat
+    const LEVEL5_SPELLING = [
+      {
+        prompt: 'Melyik mondat helyesírása HIBÁTLAN?',
+        options: [
+          'A kedvenc hónapom a június, mert akkor kezdődik a nyár.',
+          'A kedvenc hónapom a Június, mert akkor kezdődik a Nyár.',
+          'A kedvenc hónapom a június, mert akkor kezdődik a Nyár.'
+        ],
+        answer: 0,
+        explain: 'A hónapok (június) és az évszakok (nyár) nevei köznevek, ezért kis kezdőbetűvel írjuk őket!'
+      },
+      {
+        prompt: 'Melyik mondatban helyes a népek és ünnepek írásmódja?',
+        options: [
+          'A Magyar és a Szlovák diákok együtt ünnepelték a Karácsonyt.',
+          'A magyar és a szlovák diákok együtt ünnepelték a karácsonyt.',
+          'A magyar és a szlovák diákok együtt ünnepelték a Karácsonyt.'
+        ],
+        answer: 1,
+        explain: 'A népek nevei (magyar, szlovák) és az ünnepek nevei (karácsony, húsvét) is kisbetűs köznevek!'
+      },
+      {
+        prompt: 'Figyeld a világtájakat! Melyik mondat helyes?',
+        options: [
+          'A madarak ősszel Délre repülnek, tavasszal pedig Észak felé térnek vissza.',
+          'A madarak Ősszel délre repülnek, Tavasszal pedig észak felé térnek vissza.',
+          'A madarak ősszel délre repülnek, tavasszal pedig észak felé térnek vissza.'
+        ],
+        answer: 2,
+        explain: 'Az önálló világtájak (észak, dél, kelet, nyugat) és évszakok kisbetűsek! (Csak földrajzi nevek tagjaként nagyok, pl. Dél-Amerika.)'
+      },
+      {
+        prompt: 'Melyik szó NEM tartozik a kisbetűs köznevek közé?',
+        options: ['Dél-Amerika', 'húsvét', 'február', 'veszprémi'],
+        answer: 0,
+        explain: 'A „Dél-Amerika” földrajzi tulajdonnév, ezért nagy kezdőbetűs! A húsvét, február és veszprémi kisbetűs köznevek.'
+      },
+      {
+        prompt: 'Melyik mondatban helyes az ünnepek és történelmi időszakok írásmódja?',
+        options: [
+          'Májusban ünnepeljük az anyák napját, történelemből pedig a honfoglalásról tanulunk.',
+          'Májusban ünnepeljük az Anyák Napját, történelemből pedig a Honfoglalásról tanulunk.',
+          'Májusban ünnepeljük az anyák napját, történelemből pedig a Honfoglalásról tanulunk.'
+        ],
+        answer: 0,
+        explain: 'Az ünnepek, jeles napok (anyák napja, mindenszentek) és történelmi időszakok (honfoglalás) kisbetűs köznevek!'
+      },
+      {
+        prompt: 'Melyik sorban van MINDEN népcsoport- és lakosnév helyesen írva mondaton belül?',
+        options: [
+          'székely, kun, német, pápakovácsi',
+          'Székely, Kun, német, Pápakovácsi',
+          'székely, kun, Német, pápakovácsi'
+        ],
+        answer: 0,
+        explain: 'A népek, népcsoportok és lakosnevek (székely, kun, német, pápakovácsi) mind kisbetűs köznevek!'
+      },
+      {
+        prompt: 'Melyik mondat helyesírása HIBÁTLAN a világtájak szempontjából?',
+        options: [
+          'A hideg szél északkelet felől érkezett, de Dél-Amerikában most meleg van.',
+          'A hideg szél Északkelet felől érkezett, de Dél-Amerikában most meleg van.',
+          'A hideg szél északkelet felől érkezett, de dél-amerikában most meleg van.'
+        ],
+        answer: 0,
+        explain: 'Az önálló világtáj (északkelet) kisbetűs köznév, a földrajzi név (Dél-Amerika) viszont nagy kezdőbetűs tulajdonnév!'
+      }
+    ];
+
+    const LEVEL5_ANALYSIS = [
+      { word: 'ménes', kind: 'gyűjtőnév', hint: 'Sok lovat jelöl egyes számban.' },
+      { word: 'tanulás', kind: 'cselekvést kifejező főnév', hint: 'Tevékenységet, folyamatot nevez meg.' },
+      { word: 'tisztasággal', kind: 'fogalom', hint: 'Toldalékos alak, elvont tulajdonság neve.' },
+      { word: 'aranyból', kind: 'anyagnév', hint: 'Toldalékos alak, mértékegységgel mérhető anyag.' },
+      { word: 'könyvet', kind: 'egyedi név', hint: 'Toldalékos alak, egyetlen önálló tárgy neve.' },
+      { word: 'diákságnak', kind: 'gyűjtőnév', hint: 'Toldalékos alak, sok diákot jelöl egyes számban.' },
+      { word: 'olvasásról', kind: 'cselekvést kifejező főnév', hint: 'Toldalékos alak, az „olvas” igéből képzett tevékenységnév.' }
+    ];
+
+    // 6. SZINT – Végső kihívás kérdésbank (25 kérdés)
+    const BOSS_BANK = [
+      {
+        tag: 'Meghatározás',
+        q: 'Melyik köznévfajta nevez meg több egyedből álló csoportot egyes számban?',
+        options: ['Gyűjtőnév', 'Egyedi név', 'Anyagnév', 'Fogalom'],
+        answer: 0,
+        explain: 'A gyűjtőnév egyes számban jelöl halmazt, csoportot (pl. erdő, csorda, diákság).'
+      },
+      {
+        tag: 'Főnév felismerése',
+        q: 'Melyik sorban található KIZÁRÓLAG főnév?',
+        options: [
+          'futás, barátság, erdő, só',
+          'fut, barátságos, erdő, sós',
+          'tanár, piros, asztal, tej',
+          'úszás, gyorsan, öröm, könyv'
+        ],
+        answer: 0,
+        explain: 'Futás (cselekvést kifejező), barátság (fogalom), erdő (gyűjtőnév), só (anyagnév) – mind főnév!'
+      },
+      {
+        tag: 'Köznév fajtája',
+        q: 'Melyik köznévfajtába tartozik a „papság” szó?',
+        options: ['Egyedi név', 'Gyűjtőnév', 'Fogalom', 'Anyagnév'],
+        answer: 1,
+        explain: 'A „papság” egyes számban jelöli a papok összességét, tehát gyűjtőnév.'
+      },
+      {
+        tag: 'Mintaelemzés',
+        q: 'Hogyan elemeznéd helyesen a „tisztasággal” szót?',
+        options: [
+          'névszó, főnév, köznév, fogalom',
+          'névszó, melléknév, köznév, fogalom',
+          'névszó, főnév, köznév, anyagnév',
+          'névszó, főnév, köznév, cselekvést kifejező főnév'
+        ],
+        answer: 0,
+        explain: 'Mintaelemzés: tisztasággal = névszó, főnév, köznév, fogalom.'
+      },
+      {
+        tag: 'Kakukktojás',
+        q: 'Melyik a kakukktojás: „úszás, olvasás, rajzolás, rajzol”?',
+        options: ['úszás', 'olvasás', 'rajzolás', 'rajzol'],
+        answer: 3,
+        explain: 'A „rajzol” ige (Mit csinál?), a többi cselekvést kifejező főnév (Mi?).'
+      },
+      {
+        tag: 'Helyesírási csapda',
+        q: 'Melyik szó írásmódja helyes egy mondat belsejében?',
+        options: ['Anyák Napja', 'Március', 'honfoglalás', 'Székely'],
+        answer: 2,
+        explain: 'A történelmi időszakok/események (honfoglalás), hónapok, ünnepek és népcsoportok nevei kisbetűsek!'
+      },
+      {
+        tag: 'Köznév fajtája',
+        q: 'Melyik szó ANYAGNÉV az alábbiak közül?',
+        options: ['korsó', 'homok', 'sivatag', 'ásás'],
+        answer: 1,
+        explain: 'A „homok” anyagnév (kisebb részei is homok, mértékegységgel mérjük).'
+      },
+      {
+        tag: 'Kakukktojás',
+        q: 'Melyik a kakukktojás: „csorda, falka, hegység, hegyek”?',
+        options: ['csorda', 'falka', 'hegység', 'hegyek'],
+        answer: 3,
+        explain: 'A „hegyek” többes számú egyedi név, míg a többi egyes számú gyűjtőnév!'
+      },
+      {
+        tag: 'Köznév fajtája',
+        q: 'Melyik köznévfajtába tartozik a „bátorság” szó?',
+        options: ['Egyedi név', 'Fogalom', 'Cselekvést kifejező főnév', 'Anyagnév'],
+        answer: 1,
+        explain: 'A „bátorság” elvont tulajdonság neve, tehát fogalom.'
+      },
+      {
+        tag: 'Helyesírási csapda',
+        q: 'Melyik kifejezés helyesírása HIBÁS?',
+        options: ['délnyugat felől fúj a szél', 'szeptember elseje', 'Dél-Amerika térképe', 'szép Tavasz'],
+        answer: 3,
+        explain: 'Az évszakok nevei (tavasz, nyár, ősz, tél) kisbetűs köznevek: helyesen „szép tavasz”.'
+      },
+      {
+        tag: 'Meghatározás',
+        q: 'Melyik állítás IGAZ az anyagnévre?',
+        options: [
+          'Általában nem darabszámmal, hanem mértékegységgel mérjük.',
+          'Mindig nagy kezdőbetűvel írjuk.',
+          'Igéből képezzük és tevékenységet jelöl.',
+          'Csak többes számban használható.'
+        ],
+        answer: 0,
+        explain: 'Az anyagnév részei megegyeznek az egésszel, és mértékegységgel mérjük (pl. 1 liter tej, 1 kg liszt).'
+      },
+      {
+        tag: 'Főnév felismerése',
+        q: 'Hány főnév van ebben a mondatban? „A kedves tanár érdekes könyvet olvas a csendes osztálynak.”',
+        options: ['2 főnév', '3 főnév', '4 főnév', '5 főnév'],
+        answer: 1,
+        explain: '3 főnév van benne: tanár (egyedi), könyvet (egyedi), osztálynak (gyűjtőnév). Az „olvas” ige!'
+      },
+      {
+        tag: 'Köznév fajtája',
+        q: 'Melyik szó CSELEKVÉST KIFEJEZŐ FŐNÉV?',
+        options: ['kirándulás', 'kirándul', 'kiránduló', 'erdő'],
+        answer: 0,
+        explain: 'A „kirándulás” folyamatot/tevékenységet nevez meg (Mi?), igéből képzett főnév.'
+      },
+      {
+        tag: 'Mintaelemzés',
+        q: 'Mi a helyes kötött elemzési sorrend a főnév vizsgálatánál?',
+        options: [
+          'névszó → főnév → köznév → köznév fajtája',
+          'főnév → névszó → fajta → köznév',
+          'köznév → névszó → főnév → fajta',
+          'ige → névszó → főnév → köznév'
+        ],
+        answer: 0,
+        explain: 'Mindig fentről lefelé haladunk: névszó, főnév, köznév, majd a köznév pontos fajtája!'
+      },
+      {
+        tag: 'Meghatározás',
+        q: 'Melyik szófaj kérdései: Ki? Mi? Kik? Mik? Kit? Mit? Mivel?',
+        options: ['Melléknév', 'Főnév', 'Ige', 'Határozószó'],
+        answer: 1,
+        explain: 'A főnév alapkérdései a Ki? Mi? Kik? Mik?, és toldalékosan a Kit? Mit? Mivel? Honnan? stb.'
+      },
+      {
+        tag: 'Köznév fajtája',
+        q: 'Melyik köznévfajtába tartozik a „ménes” szó?',
+        options: ['Egyedi név', 'Anyagnév', 'Gyűjtőnév', 'Fogalom'],
+        answer: 2,
+        explain: 'A „ménes” több lovat jelöl egyes számban, tehát gyűjtőnév.'
+      },
+      {
+        tag: 'Kakukktojás',
+        q: 'Melyik a kakukktojás: „víz, tej, liszt, vödör”?',
+        options: ['víz', 'tej', 'liszt', 'vödör'],
+        answer: 3,
+        explain: 'A „vödör” darabra számolható egyedi név, a víz, tej és liszt pedig anyagnév!'
+      },
+      {
+        tag: 'Helyesírási csapda',
+        q: 'Melyik mondat helyesírása HIBÁTLAN?',
+        options: [
+          'Idén pünkösdkor a német rokonok is ellátogatnak hozzánk.',
+          'Idén Pünkösdkor a Német rokonok is ellátogatnak hozzánk.',
+          'Idén pünkösdkor a Német rokonok is ellátogatnak hozzánk.',
+          'Idén Pünkösdkor a német rokonok is ellátogatnak hozzánk.'
+        ],
+        answer: 0,
+        explain: 'Az ünnepek (pünkösd) és a népek nevei (német) kisbetűs köznevek!'
+      },
+      {
+        tag: 'Főnév felismerése',
+        q: 'Melyik szó NEM főnév az alábbiak közül?',
+        options: ['igazság', 'építkezés', 'barátságos', 'diákság'],
+        answer: 2,
+        explain: 'A „barátságos” melléknév (Milyen?), a többi mind főnév (fogalom, cselekvést kifejező, gyűjtőnév).'
+      },
+      {
+        tag: 'Mintaelemzés',
+        q: 'Hogyan elemeznéd helyesen az „arany” szót?',
+        options: [
+          'névszó, főnév, köznév, anyagnév',
+          'névszó, főnév, köznév, egyedi név',
+          'névszó, melléknév, köznév, anyagnév',
+          'névszó, főnév, tulajdonnév, anyagnév'
+        ],
+        answer: 0,
+        explain: 'Mintaelemzés: arany = névszó, főnév, köznév, anyagnév.'
+      },
+      {
+        tag: 'Köznév fajtája',
+        q: 'Melyik sorban található KIZÁRÓLAG fogalom (elvont főnév)?',
+        options: [
+          'szeretet, félelem, igazság',
+          'szeretet, úszás, igazság',
+          'félelem, erdő, tisztaság',
+          'jóság, cukor, barátság'
+        ],
+        answer: 0,
+        explain: 'A szeretet, félelem és igazság mind megfoghatatlan, elvont gondolati dolgok (fogalmak).'
+      },
+      {
+        tag: 'Kakukktojás',
+        q: 'Melyik a kakukktojás: „szeretet, jóság, bátorság, tanulás”?',
+        options: ['szeretet', 'jóság', 'bátorság', 'tanulás'],
+        answer: 3,
+        explain: 'A „tanulás” cselekvést kifejező főnév, a szeretet, jóság és bátorság pedig elvont fogalmak.'
+      },
+      {
+        tag: 'Főnév felismerése',
+        q: 'Hány főnév van ebben a mondatban? „A gyors futás után friss vizet iszik a sportoló.”',
+        options: ['2 főnév', '3 főnév', '4 főnév', '1 főnév'],
+        answer: 1,
+        explain: '3 főnév van benne: futás (cselekvést kifejező), vizet (anyagnév) és sportoló (egyedi név).'
+      },
+      {
+        tag: 'Helyesírási csapda',
+        q: 'Melyik szópár MINDKÉT tagja helyesen van írva mondat belsejében?',
+        options: [
+          'január, veszprémi',
+          'Január, veszprémi',
+          'január, Veszprémi',
+          'Január, Veszprémi'
+        ],
+        answer: 0,
+        explain: 'A hónapok (január) és a lakosnevek (veszprémi) is kisbetűs köznevek!'
+      },
+      {
+        tag: 'Meghatározás',
+        q: 'Melyik állítás IGAZ a köznevekre?',
+        options: [
+          'Több hasonló dolog közös neve, mondaton belül kis kezdőbetűvel írjuk.',
+          'Egyetlen kiemelt dolog saját neve, mindig nagybetűvel írjuk.',
+          'Csak élőlényeket és tárgyakat jelölhet, érzéseket nem.',
+          'Soha nem kaphat toldalékot a mondatban.'
+        ],
+        answer: 0,
+        explain: 'A köznév több hasonló élőlény, tárgy vagy gondolati dolog közös neve, amelyet kis kezdőbetűvel írunk.'
+      }
+    ];
+
+    /* ============================================================
+       5. KÜLDETÉS INDÍTÓ ÉS KÖZÖS SEGÉDFÜGGVÉNYEK
+    ============================================================ */
+    let currentLevelId = null;
+    let levelScore = 0;
+    let levelTotal = 0;
+    let bossTimer = null;
+    let bossTimeLeft = 0;
+
+    function stopBossTimer() {
+      if (bossTimer) {
+        clearInterval(bossTimer);
+        bossTimer = null;
+      }
+    }
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function shuffleWithAnswer(list, correctIndex) {
+      const pairs = list.map((val, i) => ({ val, ok: i === correctIndex }));
+      const mixed = shuffle(pairs);
+      return {
+        list: mixed.map(p => p.val),
+        answer: mixed.findIndex(p => p.ok)
+      };
+    }
+
+    function setTaskProgress(current, total, leftLabel = 'Haladás') {
+      const pct = total > 0 ? Math.round((current / total) * 100) : 0;
+      document.getElementById('progress-label-left').textContent = leftLabel;
+      document.getElementById('progress-label-right').textContent = `${current} / ${total}`;
+      document.getElementById('task-progress-fill').style.width = `${pct}%`;
+    }
+
+    function startLevel(id) {
+      sfx.click();
+      stopBossTimer();
+      currentLevelId = id;
+      levelScore = 0;
+      const lvl = LEVELS.find(l => l.id === id);
+      document.getElementById('home-view').classList.add('hidden');
+      document.getElementById('task-view').classList.remove('hidden');
+      document.getElementById('timer-holder').classList.add('hidden');
+      document.getElementById('task-title').textContent = `${lvl.emoji} ${lvl.title}`;
+      document.getElementById('task-subtitle').textContent = lvl.step;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (id === 1) runLevel1();
+      if (id === 2) runLevel2();
+      if (id === 3) runLevel3();
+      if (id === 4) runLevel4();
+      if (id === 5) runLevel5();
+      if (id === 6) runLevel6Intro();
+    }
+
+    function finishLevel(score, total, extraNote = '', showCert = false) {
+      stopBossTimer();
+      document.getElementById('timer-holder').classList.add('hidden');
+      setTaskProgress(total, total, 'Teljesítve!');
+      const pct = total > 0 ? Math.round((score / total) * 100) : 100;
+      let earnedStars = 1;
+      if (pct >= 90) earnedStars = 3;
+      else if (pct >= 70) earnedStars = 2;
+
+      if (earnedStars > (state.stars[currentLevelId] || 0)) {
+        state.stars[currentLevelId] = earnedStars;
+      }
+      if (currentLevelId >= 1 && currentLevelId <= 5) {
+        unlockBadge(`lvl${currentLevelId}`);
+      }
+      saveState();
+      updateHUD();
+
+      sfx.win();
+      if (earnedStars >= 2) fireConfetti(earnedStars === 3 ? 110 : 65);
+
+      const praise =
+        earnedStars === 3 ? 'Fantasztikus! Igazi nyelvtan-bajnok vagy! 🌟' :
+        earnedStars === 2 ? 'Szép munka! Már nagyon magabiztosan megy!' :
+        'Ügyes próbálkozás! Nézd át a Tudástárat és szerezd meg a 3 csillagot!';
+
+      const nextId = currentLevelId < 6 ? currentLevelId + 1 : null;
+      const starsStr = [1, 2, 3].map(n => n <= earnedStars ? '⭐' : '☆').join('');
+
+      const certHtml = showCert ? `
+        <div class="certificate-box" id="cert-box">
+          <div style="font-size:0.82rem; font-weight:800; letter-spacing:0.12em; color:#b45309; text-transform:uppercase;">
+            Szófaj-kalandorok • 6. osztály
+          </div>
+          <h3 style="font-size:1.7rem; color:#3730a3; margin:6px 0;">🏆 Elismerő oklevél</h3>
+          <p style="font-size:0.95rem; color:var(--text-muted);">
+            Ezt az oklevelet kapja a főnév felismerésében és a köznév fajtáinak ismeretében elért kiváló eredményéért:
+          </p>
+          <input class="cert-name-input no-print" id="cert-name-input" type="text" placeholder="Írd be a neved..." value="${escapeHtml(state.studentName)}" oninput="updateCertName(this.value)" />
+          <div id="cert-name-display" class="display-font" style="font-size:1.6rem; color:#1e293b; margin:6px 0 8px;">
+            ${escapeHtml(state.studentName || 'Bátor szóvadász')}
+          </div>
+          <p style="font-size:0.9rem; font-weight:800; color:#047857;">
+            Eredmény: ${score}/${total} (${pct}%) • Összes XP: ${state.xp} XP
+          </p>
+          <div class="no-print" style="margin-top:14px;">
+            <button class="btn btn-outline" onclick="window.print()">🖨️ Oklevél nyomtatása</button>
+          </div>
+        </div>
+      ` : '';
+
+      document.getElementById('task-body').innerHTML = `
+        <div class="summary-card">
+          <span class="summary-emoji">${earnedStars === 3 ? '🎉' : earnedStars === 2 ? '🥳' : '💪'}</span>
+          <h2 style="font-size: 1.7rem;">Küldetés teljesítve!</h2>
+          <div class="summary-stars">${starsStr}</div>
+          <p style="font-size: 1.02rem; color: var(--text-muted); max-width: 520px; margin: 0 auto;">
+            ${praise} ${extraNote}
+          </p>
+          <div class="summary-metrics">
+            <div class="metric-box">
+              <div class="metric-val">${score} / ${total}</div>
+              <div class="metric-lbl">Helyes megoldás</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">${pct}%</div>
+              <div class="metric-lbl">Pontosság</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">⚡ ${state.xp}</div>
+              <div class="metric-lbl">Összes XP</div>
+            </div>
+          </div>
+          ${certHtml}
+          <div class="summary-actions no-print" style="margin-top: 22px;">
+            <button class="btn btn-outline" onclick="startLevel(${currentLevelId})">🔄 Újrapróbálom</button>
+            <button class="btn btn-outline" onclick="goHome()">🗺️ Kalandtérkép</button>
+            ${nextId ? `<button class="btn btn-primary" onclick="startLevel(${nextId})">Következő küldetés (${nextId}. szint) →</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function updateCertName(val) {
+      state.studentName = val;
+      saveState();
+      const el = document.getElementById('cert-name-display');
+      if (el) el.textContent = val.trim() || 'Bátor szóvadász';
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* ============================================================
+       6. 1. SZINT – MEGHATÁROZÁS-VADÁSZAT
+    ============================================================ */
+    function runLevel1() {
+      const items = LEVEL1_DATA.map(it => {
+        const mixed = shuffleWithAnswer(it.options, it.answer);
+        return { ...it, options: mixed.list, answer: mixed.answer };
+      });
+      let idx = 0;
+      let correctCount = 0;
+      let locked = false;
+
+      function renderQ() {
+        locked = false;
+        const item = items[idx];
+        setTaskProgress(idx, items.length, 'Kérdés');
+        const letters = ['A', 'B', 'C', 'D'];
+        document.getElementById('task-body').innerHTML = `
+          <div class="instruction-box">
+            <span class="ins-icon">📜</span>
+            <div>
+              <h3>Olvasd el a meghatározást!</h3>
+              <p>Melyik nyelvtani fogalomra illik a leírás? Ha bizonytalan vagy, nézz bele a fenti Tudástárba!</p>
+            </div>
+          </div>
+          <div class="def-card">
+            <span class="def-kicker">${item.kicker}</span>
+            <div class="def-quote">„${item.def}”</div>
+            <div class="def-example-hint">Tipp: ${item.hint}</div>
+          </div>
+          <div class="options-grid">
+            ${item.options.map((opt, i) => `
+              <button class="option-btn" id="l1-opt-${i}" onclick="window._l1Pick(${i})">
+                <span class="opt-letter">${letters[i]}</span>
+                <span>${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div id="l1-fb"></div>
+          <div class="action-bar" id="l1-next-bar"></div>
+        `;
+      }
+
+      window._l1Pick = (choice) => {
+        if (locked) return;
+        locked = true;
+        const item = items[idx];
+        const isOk = choice === item.answer;
+        recordAnswer(isOk, 15);
+        if (isOk) correctCount++;
+
+        item.options.forEach((_, i) => {
+          const btn = document.getElementById(`l1-opt-${i}`);
+          btn.disabled = true;
+          if (i === item.answer) btn.classList.add('correct');
+          else if (i === choice && !isOk) btn.classList.add('wrong');
+        });
+
+        document.getElementById('l1-fb').innerHTML = `
+          <div class="feedback-box ${isOk ? 'ok' : 'err'}">
+            <span>${isOk ? '✅' : '💡'}</span>
+            <div>${isOk ? item.explain : `Nem egészen! A helyes válasz: <strong>${item.options[item.answer]}</strong>. ${item.explain}`}</div>
+          </div>
+        `;
+        document.getElementById('l1-next-bar').innerHTML = `
+          <button class="btn btn-primary" onclick="window._l1Next()">
+            ${idx + 1 < items.length ? 'Következő meghatározás →' : 'Eredmény megtekintése →'}
+          </button>
+        `;
+      };
+
+      window._l1Next = () => {
+        sfx.click();
+        idx++;
+        if (idx < items.length) renderQ();
+        else finishLevel(correctCount, items.length);
+      };
+
+      renderQ();
+    }
+
+    /* ============================================================
+       7. 2. SZINT – SZÓVADÁSZAT (TÖBB SZÓ KÖZÜL + MONDATOKBAN)
+    ============================================================ */
+    function runLevel2() {
+      // Total steps: 5 cloud waves + 10 sentences = 15 stages
+      const stages = [];
+      LEVEL2_WAVES.forEach(w => {
+        if (w.type === 'cloud') {
+          stages.push({ kind: 'cloud', data: w });
+        } else if (w.type === 'sentence') {
+          w.sentences.forEach((s, i) => {
+            stages.push({
+              kind: 'sentence',
+              title: `${w.title} (${i + 1}/${w.sentences.length})`,
+              data: s
+            });
+          });
+        }
+      });
+
+      let step = 0;
+      let totalPoints = 0;
+      let maxPoints = 0;
+
+      function renderStage() {
+        const st = stages[step];
+        setTaskProgress(step, stages.length, 'Feladat');
+        const selected = new Set();
+        let checked = false;
+
+        if (st.kind === 'cloud') {
+          const shuffledWords = shuffle(st.data.words);
+          const nounCount = shuffledWords.filter(w => w.isNoun).length;
+
+          document.getElementById('task-body').innerHTML = `
+            <div class="instruction-box">
+              <span class="ins-icon">🎯</span>
+              <div>
+                <h3>${st.data.title}</h3>
+                <p>${st.data.instruction}</p>
+              </div>
+            </div>
+            <div class="word-cloud" id="l2-cloud">
+              ${shuffledWords.map((w, i) => `
+                <button class="word-chip" id="l2-w-${i}" onclick="window._l2Toggle(${i})">${w.text}</button>
+              `).join('')}
+            </div>
+            <div style="text-align:center; font-size:0.88rem; font-weight:800; color:var(--text-muted);">
+              Kiválasztva: <span id="l2-sel-count">0</span> szó (keress ${nounCount} főnevet!)
+            </div>
+            <div id="l2-fb"></div>
+            <div class="action-bar" id="l2-actions">
+              <button class="btn btn-primary" onclick="window._l2Check()">Ellenőrzés ✓</button>
+            </div>
+          `;
+
+          window._l2Toggle = (i) => {
+            if (checked) return;
+            sfx.click();
+            const el = document.getElementById(`l2-w-${i}`);
+            if (selected.has(i)) {
+              selected.delete(i);
+              el.classList.remove('selected');
+            } else {
+              selected.add(i);
+              el.classList.add('selected');
+            }
+            document.getElementById('l2-sel-count').textContent = selected.size;
+          };
+
+          window._l2Check = () => {
+            if (checked) return;
+            if (selected.size === 0) {
+              showToast('👆', 'Kattints legalább egy főnévre ellenőrzés előtt!');
+              return;
+            }
+            checked = true;
+            let hits = 0;
+            let mistakes = 0;
+            const wrongDetails = [];
+
+            shuffledWords.forEach((w, i) => {
+              const el = document.getElementById(`l2-w-${i}`);
+              el.disabled = true;
+              el.classList.remove('selected');
+              if (w.isNoun && selected.has(i)) {
+                hits++;
+                el.classList.add('found-ok');
+              } else if (w.isNoun && !selected.has(i)) {
+                el.classList.add('missed-noun');
+              } else if (!w.isNoun && selected.has(i)) {
+                mistakes++;
+                el.classList.add('picked-wrong');
+                wrongDetails.push(`<strong>${w.text}</strong>: ${w.why}`);
+              }
+            });
+
+            maxPoints += nounCount;
+            const roundScore = Math.max(0, hits - mistakes);
+            totalPoints += roundScore;
+            const perfect = hits === nounCount && mistakes === 0;
+            recordAnswer(perfect, perfect ? 25 : 0);
+
+            let msg = '';
+            if (perfect) {
+              msg = `Hibátlan vadászat! Mind az ${nounCount} főnevet megtaláltad!`;
+            } else {
+              msg = `${hits}/${nounCount} főnevet találtál el (${mistakes} téves kattintás). Sárgával jelöltük, ha kimaradt egy főnév.`;
+              if (wrongDetails.length) msg += `<br/><span style="font-size:0.86rem;">Tévesek magyarázata: ${wrongDetails.join(' • ')}</span>`;
+            }
+
+            document.getElementById('l2-fb').innerHTML = `
+              <div class="feedback-box ${perfect ? 'ok' : 'err'}">
+                <span>${perfect ? '✅' : '🔎'}</span>
+                <div>${msg}</div>
+              </div>
+            `;
+            document.getElementById('l2-actions').innerHTML = `
+              <button class="btn btn-primary" onclick="window._l2Next()">Következő hullám →</button>
+            `;
+          };
+        } else {
+          // Sentence mode
+          const tokens = st.data.tokens;
+          const nounCount = tokens.filter(t => t.isNoun).length;
+
+          document.getElementById('task-body').innerHTML = `
+            <div class="instruction-box">
+              <span class="ins-icon">✍️</span>
+              <div>
+                <h3>${st.title}</h3>
+                <p>${st.data.instruction}</p>
+              </div>
+            </div>
+            <div class="sentence-box">
+              ${tokens.map((t, i) => `
+                <button class="sentence-word" id="l2-sw-${i}" onclick="window._l2Toggle(${i})">${t.text}</button>
+              `).join('')}
+            </div>
+            <div style="text-align:center; font-size:0.88rem; font-weight:800; color:var(--text-muted);">
+              Kiválasztva: <span id="l2-sel-count">0</span> szó
+            </div>
+            <div id="l2-fb"></div>
+            <div class="action-bar" id="l2-actions">
+              <button class="btn btn-primary" onclick="window._l2Check()">Ellenőrzés ✓</button>
+            </div>
+          `;
+
+          window._l2Toggle = (i) => {
+            if (checked) return;
+            sfx.click();
+            const el = document.getElementById(`l2-sw-${i}`);
+            if (selected.has(i)) {
+              selected.delete(i);
+              el.classList.remove('selected');
+            } else {
+              selected.add(i);
+              el.classList.add('selected');
+            }
+            document.getElementById('l2-sel-count').textContent = selected.size;
+          };
+
+          window._l2Check = () => {
+            if (checked) return;
+            if (selected.size === 0) {
+              showToast('👆', 'Kattints a mondat főneveire!');
+              return;
+            }
+            checked = true;
+            let hits = 0;
+            let mistakes = 0;
+            tokens.forEach((t, i) => {
+              const el = document.getElementById(`l2-sw-${i}`);
+              el.disabled = true;
+              el.classList.remove('selected');
+              if (t.isNoun && selected.has(i)) {
+                hits++;
+                el.classList.add('found-ok');
+              } else if (t.isNoun && !selected.has(i)) {
+                el.classList.add('missed-noun');
+              } else if (!t.isNoun && selected.has(i)) {
+                mistakes++;
+                el.classList.add('picked-wrong');
+              }
+            });
+
+            maxPoints += nounCount;
+            totalPoints += Math.max(0, hits - mistakes);
+            const perfect = hits === nounCount && mistakes === 0;
+            recordAnswer(perfect, 20);
+
+            document.getElementById('l2-fb').innerHTML = `
+              <div class="feedback-box ${perfect ? 'ok' : 'err'}">
+                <span>${perfect ? '✅' : '💡'}</span>
+                <div>${perfect ? 'Tökéletes! ' : `${hits}/${nounCount} eltalálva (${mistakes} téves). `}${st.data.explain}</div>
+              </div>
+            `;
+            document.getElementById('l2-actions').innerHTML = `
+              <button class="btn btn-primary" onclick="window._l2Next()">
+                ${step + 1 < stages.length ? 'Következő mondat →' : 'Eredmény megtekintése →'}
+              </button>
+            `;
+          };
+        }
+      }
+
+      window._l2Next = () => {
+        sfx.click();
+        step++;
+        if (step < stages.length) renderStage();
+        else finishLevel(totalPoints, maxPoints);
+      };
+
+      renderStage();
+    }
+
+    /* ============================================================
+       8. 3. SZINT – A KÖZNÉV 5 KINCSESLÁDÁJA (VÁLOGATÓ)
+    ============================================================ */
+    function runLevel3() {
+      const words = shuffle(LEVEL3_WORDS);
+      let idx = 0;
+      let firstTryCorrect = 0;
+      let hadErrorOnCurrent = false;
+      const placed = { egyedi: [], gyujto: [], anyag: [], fogalom: [], cselekves: [] };
+
+      function renderSorter(feedbackHtml = '') {
+        setTaskProgress(idx, words.length, 'Besorolva');
+        const current = words[idx];
+        document.getElementById('task-body').innerHTML = `
+          <div class="instruction-box">
+            <span class="ins-icon">🧰</span>
+            <div>
+              <h3>Válogasd szét a közneveket az 5 kincsesládába!</h3>
+              <p>Húzd bele a szókártyát a megfelelő ládába, vagy egyszerűen <strong>kattints</strong> arra a ládára, ahová tartozik!</p>
+            </div>
+          </div>
+
+          <div class="sorter-stage">
+            <div class="active-word-card" id="drag-word" draggable="true">
+              <div class="active-word-label">${idx + 1}. / ${words.length}. köznév</div>
+              <div class="active-word-text">${current.word}</div>
+            </div>
+
+            <div style="width:100%" id="l3-fb">${feedbackHtml}</div>
+
+            <div class="buckets-grid">
+              ${KOZNEV_BUCKETS.map(b => `
+                <button
+                  class="bucket-card"
+                  data-cat="${b.id}"
+                  onclick="window._l3Drop('${b.id}')"
+                  ondragover="event.preventDefault(); this.classList.add('drag-over')"
+                  ondragleave="this.classList.remove('drag-over')"
+                  ondrop="event.preventDefault(); this.classList.remove('drag-over'); window._l3Drop('${b.id}')"
+                >
+                  <span class="bucket-emoji">${b.emoji}</span>
+                  <div class="bucket-title">${b.label}</div>
+                  <div class="bucket-sub">${b.sub}</div>
+                  <div class="bucket-items">
+                    ${placed[b.id].map(w => `<span class="mini-chip">${w}</span>`).join('')}
+                  </div>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+
+        const dragEl = document.getElementById('drag-word');
+        if (dragEl) {
+          dragEl.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', current.word);
+          });
+        }
+      }
+
+      window._l3Drop = (catId) => {
+        const current = words[idx];
+        if (current.cat === catId) {
+          if (!hadErrorOnCurrent) firstTryCorrect++;
+          placed[catId].push(current.word);
+          recordAnswer(true, hadErrorOnCurrent ? 8 : 15);
+          const bucketObj = KOZNEV_BUCKETS.find(b => b.id === catId);
+          idx++;
+          hadErrorOnCurrent = false;
+          if (idx < words.length) {
+            renderSorter(`
+              <div class="feedback-box ok" style="margin-top:0;">
+                <span>✅</span>
+                <div>Szép volt! A <strong>${current.word}</strong> valóban <strong>${bucketObj.label.toLowerCase()}</strong>.</div>
+              </div>
+            `);
+          } else {
+            finishLevel(firstTryCorrect, words.length, 'Az elsőre hibátlanul besorolt szavakat számoltuk!');
+          }
+        } else {
+          hadErrorOnCurrent = true;
+          recordAnswer(false, 0);
+          const fb = document.getElementById('l3-fb');
+          fb.innerHTML = `
+            <div class="feedback-box err" style="margin-top:0;">
+              <span>🤔</span>
+              <div>Próbáld újra! Tipp a <strong>${current.word}</strong> szóhoz: ${current.tip}</div>
+            </div>
+          `;
+        }
+      };
+
+      renderSorter();
+    }
+
+    /* ============================================================
+       9. 4. SZINT – KAKUKKTOJÁS-DETEKTÍV (+ INDOKLÁS)
+    ============================================================ */
+    function runLevel4() {
+      const rounds = shuffle(LEVEL4_DATA).map(r => {
+        const mixedEggs = shuffleWithAnswer(r.words, r.odd);
+        const mixedReasons = shuffleWithAnswer(r.reasons, r.correctReason);
+        return {
+          ...r,
+          words: mixedEggs.list,
+          odd: mixedEggs.answer,
+          reasons: mixedReasons.list,
+          correctReason: mixedReasons.answer
+        };
+      });
+      let idx = 0;
+      let score = 0;
+      const maxScore = rounds.length * 2; // 1 pt kakukktojás + 1 pt indoklás
+      let stage = 'egg'; // 'egg' | 'reason' | 'done'
+      let eggFirstTry = true;
+
+      function renderRound() {
+        const r = rounds[idx];
+        stage = 'egg';
+        eggFirstTry = true;
+        setTaskProgress(idx, rounds.length, 'Kakukktojás');
+
+        document.getElementById('task-body').innerHTML = `
+          <div class="instruction-box">
+            <span class="ins-icon">🥚</span>
+            <div>
+              <h3>Keresd meg a kakukktojást! (${idx + 1}. / ${rounds.length}. fészek)</h3>
+              <p>Három szó összetartozik, egy viszont kilóg a sorból. Kattints a kakukktojásra, majd válaszd ki az indoklást!</p>
+            </div>
+          </div>
+
+          <div class="eggs-grid">
+            ${r.words.map((w, i) => `
+              <button class="egg-card" id="egg-${i}" onclick="window._l4PickEgg(${i})">
+                <span class="egg-icon">🥚</span>
+                <span class="egg-word">${w}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          <div id="l4-fb"></div>
+          <div id="l4-reason"></div>
+          <div class="action-bar" id="l4-next"></div>
+        `;
+      }
+
+      window._l4PickEgg = (choice) => {
+        if (stage !== 'egg') return;
+        const r = rounds[idx];
+        const card = document.getElementById(`egg-${choice}`);
+
+        if (choice === r.odd) {
+          stage = 'reason';
+          if (eggFirstTry) score += 1;
+          recordAnswer(true, eggFirstTry ? 12 : 6);
+          card.classList.add('correct');
+          card.querySelector('.egg-icon').textContent = '🐣';
+          r.words.forEach((_, i) => {
+            document.getElementById(`egg-${i}`).disabled = true;
+          });
+
+          document.getElementById('l4-fb').innerHTML = `
+            <div class="feedback-box ok">
+              <span>🎉</span>
+              <div>Megvan a kakukktojás: <strong>${r.words[r.odd]}</strong>! Most válaszd ki, MIÉRT ez a kakukktojás!</div>
+            </div>
+          `;
+
+          const letters = ['A', 'B', 'C'];
+          document.getElementById('l4-reason').innerHTML = `
+            <div class="reason-panel">
+              <h4>🔍 Miért a „${r.words[r.odd]}” a kakukktojás?</h4>
+              <div class="options-grid" style="grid-template-columns: 1fr;">
+                ${r.reasons.map((txt, i) => `
+                  <button class="option-btn" id="l4-r-${i}" onclick="window._l4PickReason(${i})">
+                    <span class="opt-letter">${letters[i]}</span>
+                    <span>${txt}</span>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        } else {
+          eggFirstTry = false;
+          recordAnswer(false, 0);
+          card.classList.add('wrong');
+          card.disabled = true;
+          document.getElementById('l4-fb').innerHTML = `
+            <div class="feedback-box err">
+              <span>🧐</span>
+              <div>A <strong>${r.words[choice]}</strong> illik a többihez! Vizsgáld meg a szófajokat és a köznév fajtáit, majd válassz másik tojást!</div>
+            </div>
+          `;
+        }
+      };
+
+      window._l4PickReason = (rChoice) => {
+        if (stage !== 'reason') return;
+        stage = 'done';
+        const r = rounds[idx];
+        const isOk = rChoice === r.correctReason;
+        if (isOk) score += 1;
+        recordAnswer(isOk, 12);
+
+        r.reasons.forEach((_, i) => {
+          const btn = document.getElementById(`l4-r-${i}`);
+          btn.disabled = true;
+          if (i === r.correctReason) btn.classList.add('correct');
+          else if (i === rChoice && !isOk) btn.classList.add('wrong');
+        });
+
+        document.getElementById('l4-fb').innerHTML = `
+          <div class="feedback-box ${isOk ? 'ok' : 'err'}">
+            <span>${isOk ? '🌟' : '💡'}</span>
+            <div>${r.explain}</div>
+          </div>
+        `;
+
+        document.getElementById('l4-next').innerHTML = `
+          <button class="btn btn-primary" onclick="window._l4Next()">
+            ${idx + 1 < rounds.length ? 'Következő kakukktojás →' : 'Eredmény megtekintése →'}
+          </button>
+        `;
+      };
+
+      window._l4Next = () => {
+        sfx.click();
+        idx++;
+        if (idx < rounds.length) renderRound();
+        else finishLevel(score, maxScore);
+      };
+
+      renderRound();
+    }
+
+    /* ============================================================
+       10. 5. SZINT – HELYESÍRÁSI CSAPDÁK + KÖTÖTT MINTAELEMZÉS
+    ============================================================ */
+    function runLevel5() {
+      const spellingItems = shuffle(LEVEL5_SPELLING).map(it => {
+        const mixed = shuffleWithAnswer(it.options, it.answer);
+        return { ...it, options: mixed.list, answer: mixed.answer };
+      });
+      const analysisItems = shuffle(LEVEL5_ANALYSIS);
+      const totalSteps = spellingItems.length + analysisItems.length;
+      let step = 0;
+      let score = 0;
+
+      function renderStep() {
+        setTaskProgress(step, totalSteps, 'Haladó próba');
+
+        if (step < spellingItems.length) {
+          // Part A: Spelling trap
+          const item = spellingItems[step];
+          let locked = false;
+          const letters = ['A', 'B', 'C', 'D'];
+          document.getElementById('task-body').innerHTML = `
+            <div class="instruction-box">
+              <span class="ins-icon">⚠️</span>
+              <div>
+                <h3>A rész – Helyesírási csapdák (${step + 1}/${spellingItems.length})</h3>
+                <p>Emlékszel, mely köznévi csoportokat írjuk mindig kis kezdőbetűvel? (Hónapok, évszakok, ünnepek, népek, világtájak!)</p>
+              </div>
+            </div>
+            <div class="def-card">
+              <span class="def-kicker">Helyesírási villámpróba</span>
+              <div class="def-quote">${item.prompt}</div>
+            </div>
+            <div class="options-grid" style="grid-template-columns: 1fr;">
+              ${item.options.map((opt, i) => `
+                <button class="option-btn" id="l5s-opt-${i}" onclick="window._l5SpellPick(${i})">
+                  <span class="opt-letter">${letters[i]}</span>
+                  <span>${opt}</span>
+                </button>
+              `).join('')}
+            </div>
+            <div id="l5-fb"></div>
+            <div class="action-bar" id="l5-next"></div>
+          `;
+
+          window._l5SpellPick = (choice) => {
+            if (locked) return;
+            locked = true;
+            const isOk = choice === item.answer;
+            if (isOk) score++;
+            recordAnswer(isOk, 18);
+
+            item.options.forEach((_, i) => {
+              const btn = document.getElementById(`l5s-opt-${i}`);
+              btn.disabled = true;
+              if (i === item.answer) btn.classList.add('correct');
+              else if (i === choice && !isOk) btn.classList.add('wrong');
+            });
+
+            document.getElementById('l5-fb').innerHTML = `
+              <div class="feedback-box ${isOk ? 'ok' : 'err'}">
+                <span>${isOk ? '✅' : '💡'}</span>
+                <div>${item.explain}</div>
+              </div>
+            `;
+            document.getElementById('l5-next').innerHTML = `
+              <button class="btn btn-primary" onclick="window._l5Next()">Tovább →</button>
+            `;
+          };
+        } else {
+          // Part B: Kötött mintaelemzés építő
+          const aIdx = step - spellingItems.length;
+          const item = analysisItems[aIdx];
+          const chainSteps = [
+            {
+              q: '1. lépés: Melyik nagy szófaji csoportba tartozik?',
+              options: shuffle(['névszó', 'ige', 'igenév']),
+              answer: 'névszó'
+            },
+            {
+              q: '2. lépés: Mi a pontos szófaja?',
+              options: shuffle(['melléknév', 'főnév', 'számnév']),
+              answer: 'főnév'
+            },
+            {
+              q: '3. lépés: A főnév melyik főcsoportja?',
+              options: shuffle(['tulajdonnév', 'köznév']),
+              answer: 'köznév'
+            },
+            {
+              q: '4. lépés: Melyik köznévfajta ez a szó?',
+              options: shuffle(['egyedi név', 'gyűjtőnév', 'anyagnév', 'fogalom', 'cselekvést kifejező főnév']),
+              answer: item.kind
+            }
+          ];
+
+          let sub = 0;
+          let hadMistake = false;
+          const filled = [];
+
+          function renderChain() {
+            const cur = chainSteps[sub];
+            document.getElementById('task-body').innerHTML = `
+              <div class="instruction-box">
+                <span class="ins-icon">🔬</span>
+                <div>
+                  <h3>B rész – Kötött mintaelemzés (${aIdx + 1}/${analysisItems.length})</h3>
+                  <p>Építsd fel lépésről lépésre a dolgozatban is elvárt 4 elemű elemzési sort!</p>
+                </div>
+              </div>
+
+              <div class="analysis-word-box">
+                <div style="font-size:0.82rem; font-weight:800; color:var(--primary); text-transform:uppercase;">Elemzendő szó</div>
+                <div class="analysis-target">${item.word}</div>
+                <div style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Segítség: ${item.hint}</div>
+
+                <div class="analysis-chain">
+                  ${[0, 1, 2, 3].map(n => `
+                    <div class="chain-slot ${filled[n] ? 'filled' : (n === sub ? 'active' : '')}">
+                      ${filled[n] || `${n + 1}. lépés`}
+                    </div>
+                    ${n < 3 ? '<span class="chain-arrow">→</span>' : ''}
+                  `).join('')}
+                </div>
+              </div>
+
+              ${cur ? `
+                <h4 style="margin-bottom:12px; font-size:1.05rem;">${cur.q}</h4>
+                <div class="options-grid">
+                  ${cur.options.map((opt, i) => `
+                    <button class="option-btn" id="l5a-opt-${i}" onclick="window._l5ChainPick('${opt.replace(/'/g, "\\'")}', ${i})">
+                      <span class="opt-letter">${i + 1}</span>
+                      <span>${opt}</span>
+                    </button>
+                  `).join('')}
+                </div>
+              ` : ''}
+              <div id="l5-fb"></div>
+              <div class="action-bar" id="l5-next"></div>
+            `;
+          }
+
+          window._l5ChainPick = (val, btnIdx) => {
+            const cur = chainSteps[sub];
+            if (val === cur.answer) {
+              filled.push(val);
+              sfx.ok();
+              sub++;
+              if (sub < chainSteps.length) {
+                renderChain();
+              } else {
+                if (!hadMistake) score++;
+                recordAnswer(!hadMistake, hadMistake ? 10 : 25);
+                renderChain();
+                document.getElementById('l5-fb').innerHTML = `
+                  <div class="feedback-box ok">
+                    <span>🏆</span>
+                    <div>
+                      Teljes mintaelemzés elkészült:<br/>
+                      <strong>${item.word}</strong> = ${filled.join(', ')}
+                    </div>
+                  </div>
+                `;
+                document.getElementById('l5-next').innerHTML = `
+                  <button class="btn btn-primary" onclick="window._l5Next()">
+                    ${step + 1 < totalSteps ? 'Következő elemzés →' : 'Eredmény megtekintése →'}
+                  </button>
+                `;
+              }
+            } else {
+              hadMistake = true;
+              recordAnswer(false, 0);
+              const btn = document.getElementById(`l5a-opt-${btnIdx}`);
+              if (btn) {
+                btn.classList.add('wrong');
+                btn.disabled = true;
+              }
+              document.getElementById('l5-fb').innerHTML = `
+                <div class="feedback-box err">
+                  <span>🤔</span>
+                  <div>Ez most nem stimmel – gondold át újra ezt a lépést! Tipp: ${item.hint}</div>
+                </div>
+              `;
+            }
+          };
+
+          renderChain();
+        }
+      }
+
+      window._l5Next = () => {
+        sfx.click();
+        step++;
+        if (step < totalSteps) renderStep();
+        else finishLevel(score, totalSteps);
+      };
+
+      renderStep();
+    }
+
+    /* ============================================================
+       11. 6. SZINT – A FŐNÉV-MESTER KIHÍVÁS (VEGYES KVÍZ + OKLEVÉL)
+    ============================================================ */
+    function runLevel6Intro() {
+      setTaskProgress(0, 25, 'Módválasztás');
+      document.getElementById('task-body').innerHTML = `
+        <div class="instruction-box">
+          <span class="ins-icon">🏆</span>
+          <div>
+            <h3>Készen állsz a végső próbára?</h3>
+            <p>25 vegyes feladat következik minden eddigi témából (meghatározás, felismerés, köznév fajtái, kakukktojás, helyesírás, mintaelemzés). Válaszd ki a játékmódot!</p>
+          </div>
+        </div>
+        <div class="mode-picker">
+          <button class="mode-card" onclick="runLevel6(false)">
+            <span class="m-icon">🧘</span>
+            <h3 style="font-size:1.2rem; margin-bottom:6px;">Nyugodt mód</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted);">Nincs időkorlát, kényelmesen átgondolhatsz minden kérdést. (20 XP / jó válasz)</p>
+          </button>
+          <button class="mode-card" onclick="runLevel6(true)">
+            <span class="m-icon">⚡</span>
+            <h3 style="font-size:1.2rem; margin-bottom:6px;">Villám mód</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted);">20 másodperced van kérdésenként – gyors válaszért extra bónusz XP jár! (30 XP / jó válasz)</p>
+          </button>
+        </div>
+      `;
+    }
+
+    function runLevel6(timedMode) {
+      sfx.click();
+      const questions = shuffle(BOSS_BANK).slice(0, 25).map(q => {
+        const mixed = shuffleWithAnswer(q.options, q.answer);
+        return { ...q, options: mixed.list, answer: mixed.answer };
+      });
+      let idx = 0;
+      let score = 0;
+      let locked = false;
+
+      if (timedMode) {
+        document.getElementById('timer-holder').classList.remove('hidden');
+      }
+
+      function renderQ() {
+        stopBossTimer();
+        locked = false;
+        const q = questions[idx];
+        setTaskProgress(idx, questions.length, 'Zárópróba');
+        const letters = ['A', 'B', 'C', 'D'];
+
+        document.getElementById('task-body').innerHTML = `
+          <div class="def-card">
+            <span class="def-kicker">${idx + 1}. / ${questions.length}. kérdés • ${q.tag}</span>
+            <div class="def-quote">${q.q}</div>
+          </div>
+          <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+            ${q.options.map((opt, i) => `
+              <button class="option-btn" id="l6-opt-${i}" onclick="window._l6Pick(${i})">
+                <span class="opt-letter">${letters[i]}</span>
+                <span>${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div id="l6-fb"></div>
+          <div class="action-bar" id="l6-next"></div>
+        `;
+
+        if (timedMode) {
+          bossTimeLeft = 20;
+          document.getElementById('timer-val').textContent = bossTimeLeft;
+          bossTimer = setInterval(() => {
+            bossTimeLeft--;
+            document.getElementById('timer-val').textContent = Math.max(0, bossTimeLeft);
+            if (bossTimeLeft <= 0) {
+              stopBossTimer();
+              if (!locked) window._l6Pick(-1);
+            }
+          }, 1000);
+        }
+      }
+
+      window._l6Pick = (choice) => {
+        if (locked) return;
+        locked = true;
+        stopBossTimer();
+        const q = questions[idx];
+        const isOk = choice === q.answer;
+        if (isOk) score++;
+        recordAnswer(isOk, timedMode ? 30 : 20);
+
+        q.options.forEach((_, i) => {
+          const btn = document.getElementById(`l6-opt-${i}`);
+          btn.disabled = true;
+          if (i === q.answer) btn.classList.add('correct');
+          else if (i === choice && !isOk) btn.classList.add('wrong');
+        });
+
+        const prefix = choice === -1 ? 'Lejárt az idő! ' : (isOk ? 'Remek! ' : 'Nem egészen! ');
+        document.getElementById('l6-fb').innerHTML = `
+          <div class="feedback-box ${isOk ? 'ok' : 'err'}">
+            <span>${isOk ? '✅' : '💡'}</span>
+            <div>${prefix}${q.explain}</div>
+          </div>
+        `;
+        document.getElementById('l6-next').innerHTML = `
+          <button class="btn btn-primary" onclick="window._l6Next()">
+            ${idx + 1 < questions.length ? 'Következő kérdés →' : 'Oklevél és eredmény →'}
+          </button>
+        `;
+      };
+
+      window._l6Next = () => {
+        sfx.click();
+        idx++;
+        if (idx < questions.length) renderQ();
+        else finishLevel(score, questions.length, 'Írd be a neved az alábbi oklevélre!', true);
+      };
+
+      renderQ();
+    }
+
+    /* ============================================================
+       12. INDÍTÁS
+    ============================================================ */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeRefModal();
+    });
+
+    renderHome();
+  </script>
+</body>
+</html>
